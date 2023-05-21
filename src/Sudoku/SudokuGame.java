@@ -16,11 +16,13 @@ public class SudokuGame {
     private Users user;
     private SudokuBoard userBoard;
     private SudokuBoard answerBoard;
+    private SudokuGUI sudokuGUI;
 
     public SudokuGame() {
         user = new Users();
         userBoard = new SudokuBoard();
         answerBoard = new SudokuBoard();
+        sudokuGUI = new SudokuGUI();
     }
     Scanner scanner = new Scanner(System.in);
 
@@ -29,11 +31,12 @@ public class SudokuGame {
     //Sets difficulty by running selectDifficulty
     //Sets up the board by running initialiseBoard
     public void initialiseGame() {
-        printIntro();
-        user.initialiseUser();
-        int difficulty = selectDifficulty();
-        SudokuBoard.clearBoards( userBoard.getUserBoard(), answerBoard.getAnswerBoard());
-        SudokuBoard.initialiseBoard(difficulty, userBoard.getUserBoard(), answerBoard.getAnswerBoard());
+          sudokuGUI.printUserGUI();
+//        printIntro();
+//        user.initialiseUser();
+//        int difficulty = selectDifficulty();
+//        SudokuBoard.clearBoards( userBoard.getUserBoard(), answerBoard.getAnswerBoard());
+//        SudokuBoard.initialiseBoard(difficulty, userBoard.getUserBoard(), answerBoard.getAnswerBoard());
     }
 
     //Asks user to input difficulty level, validates input between 1 and 9

@@ -13,6 +13,6 @@ public class SudokuMain {
         public static void main(String[] args) {
         SudokuGame game = new SudokuGame();
         game.initialiseGame();
-        game.playGame();
+//        game.playGame();
     }
 }
