@@ -4,6 +4,7 @@
  */
 package Sudoku;
 
+import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,9 +18,11 @@ import javax.swing.JTextField;
  */
 public class SudokuGUI extends JFrame {
 
-    private JPanel userPanel = new JPanel();
+    private JPanel userNorthPanel = new JPanel();
+    private JPanel userSouthPanel = new JPanel();
 
-    private JLabel userIntro = new JLabel("Welcome to Sudoku! To add a number into the board,when prompted enter the X coordinate and the Y coordanite of the space you want to add it to, and then enter the number you want to add");
+    private JLabel userIntroTitle = new JLabel("Welcome to Sudoku");
+    private JLabel userIntro = new JLabel("Enter a username and password to login or sign up");
     private JLabel username = new JLabel("Username");
     private JLabel password = new JLabel("Password");
     public JTextField unInput = new JTextField(10);
@@ -32,17 +35,19 @@ public class SudokuGUI extends JFrame {
         this.setSize(600, 200);
         this.setLocationRelativeTo(null);
 
-        this.userPanel.add(userIntro);
+        this.userNorthPanel.add(userIntroTitle);
+        this.userNorthPanel.add(userIntro);
         
-        this.userPanel.add(username);
-        this.userPanel.add(unInput);
+        this.userSouthPanel.add(username);
+        this.userSouthPanel.add(unInput);
 
-        this.userPanel.add(password);
-        this.userPanel.add(pwInput);
+        this.userSouthPanel.add(password);
+        this.userSouthPanel.add(pwInput);
 
-        this.userPanel.add(loginButton);
+        this.userSouthPanel.add(loginButton);
 
-        this.add(userPanel);
+        this.add(userNorthPanel, BorderLayout.NORTH);
+        this.add(userSouthPanel, BorderLayout.CENTER);
         this.setVisible(true);
 
     }
