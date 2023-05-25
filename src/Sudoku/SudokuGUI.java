@@ -4,7 +4,11 @@
  */
 package Sudoku;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,8 +22,8 @@ import javax.swing.JTextField;
  */
 public class SudokuGUI extends JFrame {
 
-    private JPanel userNorthPanel = new JPanel();
-    private JPanel userSouthPanel = new JPanel();
+    private JPanel userPanel = new JPanel(new GridBagLayout());
+    GridBagConstraints grid = new GridBagConstraints();
 
     private JLabel userIntroTitle = new JLabel("Welcome to Sudoku");
     private JLabel userIntro = new JLabel("Enter a username and password to login or sign up");
@@ -32,22 +36,49 @@ public class SudokuGUI extends JFrame {
 
     public void printUserGUI() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 200);
+        this.setSize(400, 250);
         this.setLocationRelativeTo(null);
 
-        this.userNorthPanel.add(userIntroTitle);
-        this.userNorthPanel.add(userIntro);
-        
-        this.userSouthPanel.add(username);
-        this.userSouthPanel.add(unInput);
+        grid.gridx = 0;
+        grid.gridy = 0;
+        grid.gridwidth = 4;
+        grid.ipady = 20;
+        userIntroTitle.setFont(new Font("Arial", Font.PLAIN, 30));
+        this.userPanel.add(userIntroTitle, grid);
+        grid.gridx = 0;
+        grid.gridy = 1;
+        grid.gridwidth = 4;
+        grid.ipady = 0;
+        grid.insets = new Insets(0, 0, 10, 0);
+        this.userPanel.add(userIntro, grid);
 
-        this.userSouthPanel.add(password);
-        this.userSouthPanel.add(pwInput);
+        grid.gridx = 0;
+        grid.gridy = 2;
+        grid.gridwidth = 2;
+        this.userPanel.add(username, grid);
+        grid.gridx = 2;
+        grid.gridy = 2;
+        grid.gridwidth = 2;
+        this.userPanel.add(unInput, grid);
 
-        this.userSouthPanel.add(loginButton);
+        grid.gridx = 0;
+        grid.gridy = 3;
+        grid.gridwidth = 2;
+        this.userPanel.add(password, grid);
+        grid.gridx = 2;
+        grid.gridy = 3;
+        grid.gridwidth = 2;
+        this.userPanel.add(pwInput, grid);
 
-        this.add(userNorthPanel, BorderLayout.NORTH);
-        this.add(userSouthPanel, BorderLayout.CENTER);
+        grid.gridx = 0;
+        grid.gridy = 4;
+        grid.gridwidth = 4;
+        grid.insets = new Insets(10, 0, 0, 0);
+        grid.fill = GridBagConstraints.HORIZONTAL;
+        this.userPanel.add(loginButton, grid);
+
+        userPanel.setBackground(new Color(151, 192, 240));
+        this.add(userPanel);
         this.setVisible(true);
 
     }
