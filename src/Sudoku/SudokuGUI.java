@@ -7,6 +7,7 @@ package Sudoku;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import static java.awt.GridBagConstraints.BOTH;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -97,19 +98,26 @@ public class SudokuGUI extends JFrame {
     public void printGameGUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Sudoku Board");
-        setSize(400, 400);
 
         grid.gridx = 0;
         grid.gridy = 0;
-        grid.gridwidth = 9;
+        grid.gridwidth = 11;
         boardPanel.add(gameTitle, grid);
 
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
                 grid.gridx = row;
-                grid.gridy = column+1;
+                grid.gridy = column + 1;
                 grid.gridwidth = 1;
+
+                grid.insets = splitCells(row, column);
+                grid.fill = GridBagConstraints.BOTH;
+                grid.weightx = 1.0;
+                grid.weighty = 1.0;
+                
+                
                 board[row][column] = new JTextField(1);
+                board[row][column].setSize(WIDTH, HEIGHT);
                 board[row][column].setDocument(new CellLimit(1));
                 boardPanel.add(board[row][column], grid);
             }
@@ -117,7 +125,30 @@ public class SudokuGUI extends JFrame {
 
         add(boardPanel);
 
+        pack();
         setVisible(true);
+    }
+
+    public Insets splitCells(int row, int column) {
+        boolean splitBtm = false;
+        boolean splitSide = false;
+
+        if (column == 2 || column == 5) {
+            splitBtm = true;
+        }
+        if (row == 2 || row == 5) {
+            splitSide = true;
+        }
+
+        if (splitBtm && splitSide) {
+            return new Insets(0, 0, 5, 5);
+        } else if (splitBtm && !splitSide) {
+            return new Insets(0, 0, 5, 0);
+        } else if (!splitBtm && splitSide) {
+            return new Insets(0, 0, 0, 5);
+        }
+
+        return new Insets(0, 0, 0, 0);
     }
 
     class CellLimit extends PlainDocument {
