@@ -31,7 +31,8 @@ public class SudokuGame {
     //Sets difficulty by running selectDifficulty
     //Sets up the board by running initialiseBoard
     public void initialiseGame() {
-          sudokuGUI.printUserGUI();
+//          sudokuGUI.printUserGUI();
+          sudokuGUI.printGameGUI();
 //        printIntro();
 //        user.initialiseUser();
 //        int difficulty = selectDifficulty();
