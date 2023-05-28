@@ -7,9 +7,7 @@ package Sudoku;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-import static java.awt.GridBagConstraints.BOTH;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,9 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -52,7 +47,6 @@ public class SudokuGUI extends JFrame {
         grid.ipady = 20;
         userIntroTitle.setFont(new Font("Arial", Font.PLAIN, 30));
         this.userPanel.add(userIntroTitle, grid);
-        grid.gridx = 0;
         grid.gridy = 1;
         grid.gridwidth = 4;
         grid.ipady = 0;
@@ -65,16 +59,13 @@ public class SudokuGUI extends JFrame {
         this.userPanel.add(username, grid);
         grid.gridx = 2;
         grid.gridy = 2;
-        grid.gridwidth = 2;
         this.userPanel.add(unInput, grid);
 
         grid.gridx = 0;
         grid.gridy = 3;
-        grid.gridwidth = 2;
         this.userPanel.add(password, grid);
         grid.gridx = 2;
         grid.gridy = 3;
-        grid.gridwidth = 2;
         this.userPanel.add(pwInput, grid);
 
         grid.gridx = 0;
@@ -92,11 +83,14 @@ public class SudokuGUI extends JFrame {
 
     private JTextField[][] board = new JTextField[9][9];
     private JPanel boardPanel = new JPanel(new GridBagLayout());
-//    new GridLayout(9, 9)
     private JLabel gameTitle = new JLabel("Sudoku");
 
     public void printGameGUI() {
+        SudokuBoard sudokuBoard = new SudokuBoard();
+        int[][] answerBoard = sudokuBoard.getAnswerBoard();
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 400);
         setTitle("Sudoku Board");
 
         grid.gridx = 0;
@@ -114,18 +108,16 @@ public class SudokuGUI extends JFrame {
                 grid.fill = GridBagConstraints.BOTH;
                 grid.weightx = 1.0;
                 grid.weighty = 1.0;
-                
-                
-                board[row][column] = new JTextField(1);
+
+                String cellNumber = Integer.toString(answerBoard[row][column]);
+                board[row][column] = new JTextField(cellNumber);
                 board[row][column].setSize(WIDTH, HEIGHT);
-                board[row][column].setDocument(new CellLimit(1));
                 boardPanel.add(board[row][column], grid);
             }
         }
 
         add(boardPanel);
 
-        pack();
         setVisible(true);
     }
 
@@ -149,31 +141,5 @@ public class SudokuGUI extends JFrame {
         }
 
         return new Insets(0, 0, 0, 0);
-    }
-
-    class CellLimit extends PlainDocument {
-
-        private int limit;
-
-        CellLimit(int limit) {
-            super();
-            this.limit = limit;
-        }
-
-        @Override
-        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
-            if (str == null) {
-                return;
-            }
-            int number = Integer.parseInt(str);
-            if ((number < 1 || number > 9)) {
-                super.insertString(offset, "0", attr);// <- Doesn't actually do any thing...
-            } else {
-                //Adds string when another character is entered above the limit
-                if ((getLength() + str.length()) <= limit) {
-                    super.insertString(offset, str, attr);
-                }
-            }
-        }
     }
 }
