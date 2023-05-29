@@ -9,20 +9,25 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
  *
  * @author Bewick
  */
-public class SudokuGUI extends JFrame {
+public class UserView implements Observer{
 
     //Login Variables
+    private JTextArea myJTextArea;
     private JPanel userPanel = new JPanel(new GridBagLayout());
     GridBagConstraints grid = new GridBagConstraints();
 
@@ -34,12 +39,15 @@ public class SudokuGUI extends JFrame {
     public JPasswordField pwInput = new JPasswordField(10);
     private JLabel nameError = new JLabel("Incorrect username or password!");
     private JButton loginButton = new JButton("Login");
+    
+    private UserController userController;
 
     //Sudoku Game Variables
-    public void printUserGUI() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(400, 250);
-        this.setLocationRelativeTo(null);
+    public UserView() {
+        JFrame frame = new JFrame("User GUI");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 250);
+        frame.setLocationRelativeTo(null);
 
         grid.gridx = 0;
         grid.gridy = 0;
@@ -76,70 +84,28 @@ public class SudokuGUI extends JFrame {
         this.userPanel.add(loginButton, grid);
 
         userPanel.setBackground(new Color(151, 192, 240));
-        this.add(userPanel);
-        this.setVisible(true);
+        frame.add(userPanel);
+        frame.setVisible(true);
 
     }
 
-    private JTextField[][] board = new JTextField[9][9];
-    private JPanel boardPanel = new JPanel(new GridBagLayout());
-    private JLabel gameTitle = new JLabel("Sudoku");
+    
 
-    public void printGameGUI() {
-        SudokuBoard sudokuBoard = new SudokuBoard();
-        int[][] answerBoard = sudokuBoard.getAnswerBoard();
-        
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 400);
-        setTitle("Sudoku Board");
-
-        grid.gridx = 0;
-        grid.gridy = 0;
-        grid.gridwidth = 11;
-        boardPanel.add(gameTitle, grid);
-
-        for (int row = 0; row < 9; row++) {
-            for (int column = 0; column < 9; column++) {
-                grid.gridx = row;
-                grid.gridy = column + 1;
-                grid.gridwidth = 1;
-
-                grid.insets = splitCells(row, column);
-                grid.fill = GridBagConstraints.BOTH;
-                grid.weightx = 1.0;
-                grid.weighty = 1.0;
-
-                String cellNumber = Integer.toString(answerBoard[row][column]);
-                board[row][column] = new JTextField(cellNumber);
-                board[row][column].setSize(WIDTH, HEIGHT);
-                boardPanel.add(board[row][column], grid);
-            }
-        }
-
-        add(boardPanel);
-
-        setVisible(true);
+    public void addController(UserController controller) {
+        this.userController = controller;
+        loginButton.addActionListener(controller);
     }
 
-    public Insets splitCells(int row, int column) {
-        boolean splitBtm = false;
-        boolean splitSide = false;
+    public String getunInput() {
+        return unInput.getText();
+    }
 
-        if (column == 2 || column == 5) {
-            splitBtm = true;
-        }
-        if (row == 2 || row == 5) {
-            splitSide = true;
-        }
+    public String getpwInput() {
+        return pwInput.getText();
+    }
 
-        if (splitBtm && splitSide) {
-            return new Insets(0, 0, 5, 5);
-        } else if (splitBtm && !splitSide) {
-            return new Insets(0, 0, 5, 0);
-        } else if (!splitBtm && splitSide) {
-            return new Insets(0, 0, 0, 5);
-        }
-
-        return new Insets(0, 0, 0, 0);
+    @Override
+    public void update(Observable o, Object obj) {
+        myJTextArea.append(obj + "\n");
     }
 }
