@@ -10,8 +10,8 @@ package Sudoku;
  */
 public class SudokuBoard {
 
-    private int[][] userBoard;
-    private int[][] answerBoard;
+     int[][] userBoard;
+     int[][] answerBoard;
 
     public SudokuBoard() {
         userBoard = new int[9][9];
@@ -25,12 +25,12 @@ public class SudokuBoard {
     public static void initialiseBoard(int difficulty, int[][] userBoard, int[][] answerBoard) {
         FillBoards.fillBoard(0, 0, answerBoard);
         FillBoards.fillUserBoard(difficulty, userBoard, answerBoard);
-        SudokuBoardPrinter.printBoard(userBoard);
+        SudokuBoardPrinter.printBoard(answerBoard);
     }
 
     //Adds the numInput into the board at the co-ordinates specified by YInput and XInput
     public void updateBoard(int XInput, int YInput, int numInput) {
-        userBoard[(YInput - 1)][(XInput - 1)] = numInput;
+        userBoard[(YInput)][(XInput)] = numInput;
     }
 
     //Returns the userBoard

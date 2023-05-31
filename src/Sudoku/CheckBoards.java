@@ -44,7 +44,7 @@ public class CheckBoards {
     //Every number in userBoard is compared to the number is answerBoard
     // If the numbers match correctBoard increases by 1
     // the method returns true if all 81 cells are correct, returns false otherwise
-    public static boolean checkBoardCorrect(int[][] userBoard, int[][] answerBoard) {
+    public boolean checkBoardCorrect(int[][] userBoard, int[][] answerBoard) {
         int correctBoard = 0;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

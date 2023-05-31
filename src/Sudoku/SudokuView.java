@@ -29,10 +29,8 @@ public class SudokuView implements Observer {
 
     private JTextArea myJTextArea;
     JTextField[][] board = new JTextField[9][9];
-    boolean inputError = false;
     private JPanel boardPanel = new JPanel(new GridBagLayout());
     private JLabel gameTitle = new JLabel("Sudoku");
-    private JLabel errorLabel = new JLabel("Please enter a single number");
     private JButton endGameButton = new JButton("End Game");
     GridBagConstraints grid = new GridBagConstraints();
     JFrame frame = new JFrame("Game GUI");
@@ -40,7 +38,7 @@ public class SudokuView implements Observer {
     JLabel difficultyLabel = new JLabel("Difficulty:");
     JComboBox difficulty = new JComboBox();
 
-    private SudokuController sudokuController;
+//    private SudokuController sudokuController;
     int width = 400;
     int height = 400;
 

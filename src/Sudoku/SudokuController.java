@@ -17,11 +17,15 @@ public class SudokuController {
 
     SudokuModel model;
     SudokuView view;
+    int[][] userBoard;
+    SudokuBoard sudokuBoard;
 
-    public SudokuController(SudokuModel model, SudokuView view) {
+    public SudokuController(SudokuModel model, SudokuView view, SudokuBoard sudokuBoard) {
         this.model = model;
         this.view = view;
-
+        this.sudokuBoard = sudokuBoard;
+        this.userBoard = sudokuBoard.userBoard;
+        
         view.addButtonListener(new ButtonListener());
         view.addTextFieldFocusListener(new TextFieldFocusListener());
         view.addComboBoxListener(new ComboBoxListener());
@@ -38,7 +42,7 @@ public class SudokuController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Controller: acting on 1");
+            model.endGame(0, sudokuBoard);
         }
     }
 
@@ -46,7 +50,6 @@ public class SudokuController {
 
         @Override
         public void focusLost(FocusEvent e) {
-            System.out.println("Controller: acting on 2");
             for(int row = 0; row < 9; row++) {
                 for (int column = 0; column < 9; column++) {
                     model.checkCellContent(row, column);
@@ -56,12 +59,10 @@ public class SudokuController {
     }
 
     public void addModel(SudokuModel m) {
-        System.out.println("Controller: adding model");
         this.model = m;
     }
 
     public void addView(SudokuView v) {
-        System.out.println("Controller: adding view");
         this.view = v;
     }
 }

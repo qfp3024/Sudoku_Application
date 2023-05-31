@@ -14,8 +14,7 @@ import javax.swing.JTextField;
 public class SudokuModel extends Observable {
 
     SudokuView view;
-    private SudokuBoard sudokuBoard = new SudokuBoard();
-    private SudokuBoard userBoard;
+    private SudokuBoard userInputBoard;
     private SudokuBoard answerBoard;
 
     public SudokuModel(SudokuView view) {
@@ -51,15 +50,15 @@ public class SudokuModel extends Observable {
     public void setDifficulty() {
         int difficulty = 0;
         difficulty = getDifficulty(difficulty);
-        userBoard = new SudokuBoard();
+        userInputBoard = new SudokuBoard();
         answerBoard = new SudokuBoard();
         updateBoard(difficulty);
     }
 
     public void updateBoard(int difficulty) {
-        SudokuBoard.clearBoards(userBoard.getUserBoard(), answerBoard.getAnswerBoard());
-        SudokuBoard.initialiseBoard(difficulty, userBoard.getUserBoard(), answerBoard.getAnswerBoard());
-        setSudokuBoard(userBoard.getUserBoard());
+        SudokuBoard.clearBoards(userInputBoard.getUserBoard(), answerBoard.getAnswerBoard());
+        SudokuBoard.initialiseBoard(difficulty, userInputBoard.getUserBoard(), answerBoard.getAnswerBoard());
+        setSudokuBoard(userInputBoard.getUserBoard());
     }
 
     public int getDifficulty(int difficulty) {
@@ -104,4 +103,40 @@ public class SudokuModel extends Observable {
         view.board = board;
     }
 
+    public void endGame(long startTime, SudokuBoard sudokuBoard) {
+        mergeBoards(sudokuBoard.userBoard);
+        CheckBoards checkBoard = new CheckBoards();
+        if (checkBoard.checkBoardCorrect(sudokuBoard.userBoard, sudokuBoard.answerBoard)) {
+            System.out.println("Congratulations, you correctly completed the Sudoku Board!");
+
+//            if (!user.userMap.containsKey(user.username)) {
+//                updateTime(startTime);
+//            } else {
+//                Integer timeInteger = convertToMinutes(startTime);
+//                System.out.println("Time: " + timeInteger + " minutes");
+//                updateTime(startTime);
+//            }
+//            replay();
+        } else {
+            System.out.println("You did not successfully complete the Sudoku Board");
+//            replay();
+        }
+
+    }
+
+    public int[][] mergeBoards(int[][] userBoard) {
+        int viewNumber = 0;
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (view.board[column][row].getText().equals("")) {
+                    viewNumber = 0;
+                } else {
+                    viewNumber = Integer.parseInt(view.board[column][row].getText());
+                }
+                userBoard[row][column] = viewNumber;
+            }
+        }
+
+        return userBoard;
+    }
 }
