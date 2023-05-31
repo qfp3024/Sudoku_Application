@@ -19,6 +19,7 @@ public class SudokuController {
     SudokuView view;
     int[][] userBoard;
     SudokuBoard sudokuBoard;
+    
 
     public SudokuController(SudokuModel model, SudokuView view, SudokuBoard sudokuBoard) {
         this.model = model;
@@ -42,7 +43,7 @@ public class SudokuController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            model.endGame(0, sudokuBoard);
+            model.endGame(sudokuBoard);
         }
     }
 

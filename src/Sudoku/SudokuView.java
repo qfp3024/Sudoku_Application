@@ -37,7 +37,7 @@ public class SudokuView implements Observer {
 
     JLabel difficultyLabel = new JLabel("Difficulty:");
     JComboBox difficulty = new JComboBox();
-
+    
 //    private SudokuController sudokuController;
     int width = 400;
     int height = 400;
@@ -47,13 +47,12 @@ public class SudokuView implements Observer {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
         frame.setTitle("Sudoku Board");
-
         grid.gridx = 0;
         grid.gridy = 0;
         grid.gridwidth = 11;
         gameTitle.setFont(new Font("Arial", Font.BOLD, 24));
         boardPanel.add(gameTitle, grid);
-
+       
         grid.gridy = 1;
         grid.gridwidth = 5;
         boardPanel.add(difficultyLabel, grid);
@@ -120,7 +119,7 @@ public class SudokuView implements Observer {
 
         return new Insets(0, 0, 0, 0);
     }
-    
+
     public void addComboBoxListener(ActionListener listener) {
         difficulty.addActionListener(listener);
     }

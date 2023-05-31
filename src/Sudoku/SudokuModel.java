@@ -14,12 +14,14 @@ import javax.swing.JTextField;
 public class SudokuModel extends Observable {
 
     SudokuView view;
+    private long startTime;
     private SudokuBoard userInputBoard;
     private SudokuBoard answerBoard;
 
-    public SudokuModel(SudokuView view) {
+    public SudokuModel(SudokuView view, long startTime) {
         System.out.println("Model");
         this.view = view;
+        this.startTime = startTime;
     }
 
     public void checkCellContent(int row, int column) {
@@ -103,7 +105,7 @@ public class SudokuModel extends Observable {
         view.board = board;
     }
 
-    public void endGame(long startTime, SudokuBoard sudokuBoard) {
+    public void endGame(SudokuBoard sudokuBoard) {
         mergeBoards(sudokuBoard.userBoard);
         CheckBoards checkBoard = new CheckBoards();
         if (checkBoard.checkBoardCorrect(sudokuBoard.userBoard, sudokuBoard.answerBoard)) {
@@ -112,14 +114,12 @@ public class SudokuModel extends Observable {
 //            if (!user.userMap.containsKey(user.username)) {
 //                updateTime(startTime);
 //            } else {
-//                Integer timeInteger = convertToMinutes(startTime);
-//                System.out.println("Time: " + timeInteger + " minutes");
+            Integer timeInteger = convertToMinutes(startTime);
+            System.out.println("Time: " + timeInteger + " minutes");
 //                updateTime(startTime);
 //            }
-//            replay();
         } else {
             System.out.println("You did not successfully complete the Sudoku Board");
-//            replay();
         }
 
     }
@@ -136,7 +136,17 @@ public class SudokuModel extends Observable {
                 userBoard[row][column] = viewNumber;
             }
         }
-
         return userBoard;
     }
+
+    public int convertToMinutes(long startTime) {
+        int minutes = 0;
+        long endTime = System.nanoTime();
+        long durationSecs = (endTime - startTime) / 1000000000;
+        if (durationSecs >= 60) {
+            minutes = (int) (durationSecs / 60);
+        }
+        return minutes;
+    }
+   
 }
