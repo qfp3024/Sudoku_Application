@@ -28,6 +28,8 @@ import javax.swing.JTextField;
 public class SudokuView implements Observer {
 
     private JTextArea myJTextArea;
+    private JLabel usernameLabel = new JLabel("Username:");
+    private JLabel username = new JLabel();
     JTextField[][] board = new JTextField[9][9];
     private JPanel boardPanel = new JPanel(new GridBagLayout());
     private JLabel gameTitle = new JLabel("Sudoku");
@@ -53,6 +55,8 @@ public class SudokuView implements Observer {
         gameTitle.setFont(new Font("Arial", Font.BOLD, 24));
         boardPanel.add(gameTitle, grid);
        
+        
+        
         grid.gridy = 1;
         grid.gridwidth = 5;
         boardPanel.add(difficultyLabel, grid);

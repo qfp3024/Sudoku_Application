@@ -15,11 +15,21 @@ public class UserController implements ActionListener {
 
     UserModel model;
     UserView view;
+    SudokuGame sudokuGame;
+    
+    public UserController(SudokuGame sudokuGame) {
+        this.sudokuGame = sudokuGame;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Controller: acting on model");
-        model.loginUser();
+        if(model.loginUser()) {
+            sudokuGame.sudokuMVC();
+        }
+        else {
+            view.InputError();
+        }
     }
     
      public void addModel(UserModel m) {

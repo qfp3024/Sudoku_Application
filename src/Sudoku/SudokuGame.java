@@ -33,8 +33,8 @@ public class SudokuGame {
         int difficulty = 0;
         SudokuBoard.clearBoards(userBoard, answerBoard);
         SudokuBoard.initialiseBoard(difficulty, userBoard, answerBoard);
-//        userMVC();
-        sudokuMVC();
+        userMVC();
+//        sudokuMVC();
 
     }
 
@@ -44,7 +44,7 @@ public class SudokuGame {
 
         model.addObserver(view);
 
-        UserController controller = new UserController();
+        UserController controller = new UserController(this);
         controller.addModel(model);
         controller.addView(view);
         view.addController(controller);

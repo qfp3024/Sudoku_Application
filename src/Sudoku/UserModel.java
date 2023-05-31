@@ -23,14 +23,13 @@ public class UserModel extends Observable {
         this.view = view;
     }
     
-    public void loginUser() {
+    public boolean loginUser() {
         System.out.println("Logging in the user");
         username = view.getunInput();
         password = view.getpwInput();
         if (username != null && password != null) {
-            if (database.checkName(username, password)) {
-                
-            }
+            return database.checkName(username, password);
         }
+        return false;
     }
 }

@@ -60,22 +60,24 @@ public class SudokuDB {
 
     public boolean checkName(String username, String password) {
         boolean userCheck = false;
+        boolean newUser = true;
         try {
             if (conn != null) {
                 String query = "SELECT USERNAME, PASSWORD FROM USERS";
                 PreparedStatement statement = conn.prepareStatement(query);
 
                 ResultSet rs = statement.executeQuery();
-                if (rs.next()) {
+                while (rs.next()) {
                     String pass = rs.getString("password");
+                    String user = rs.getString("username");
                     System.out.println("***" + pass);
-                    System.out.println("found user");
-                    if (password.compareTo(pass) == 0) {
-                        userCheck = true;
-                    } else {
-                        userCheck = false;
+                    System.out.println("found user: " + user);
+                    if (username.compareTo(user) == 0) {
+                        newUser = false;
+                        userCheck = password.compareTo(pass) == 0;
                     }
-                } else {
+                }
+                if (newUser) {
                     System.out.println("no such user");
                     String insertQuery = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES (?, ?, ?)";
                     PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
