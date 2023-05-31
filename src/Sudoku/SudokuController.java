@@ -6,19 +6,53 @@ package Sudoku;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  *
  * @author Bewick
  */
-public class SudokuController implements ActionListener {
+public class SudokuController {
 
     SudokuModel model;
     SudokuView view;
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("Controller: acting on model");
+    public SudokuController(SudokuModel model, SudokuView view) {
+        this.model = model;
+        this.view = view;
+
+        view.addButtonListener(new ButtonListener());
+        view.addTextFieldFocusListener(new TextFieldFocusListener());
+        view.addComboBoxListener(new ComboBoxListener());
+    }
+    
+    class ComboBoxListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            model.setDifficulty();
+        }
+    }
+
+    class ButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Controller: acting on 1");
+        }
+    }
+
+    class TextFieldFocusListener extends FocusAdapter {
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            System.out.println("Controller: acting on 2");
+            for(int row = 0; row < 9; row++) {
+                for (int column = 0; column < 9; column++) {
+                    model.checkCellContent(row, column);
+                }
+            }
+        }
     }
 
     public void addModel(SudokuModel m) {

@@ -32,37 +32,38 @@ public class SudokuGame {
     //Sets up the board by running initialiseBoard
     public void initialiseGame() {
         sudokuDB.connectSudokuDB();
+//        int difficulty = selectDifficulty();
+        int difficulty = 2;
+        SudokuBoard.clearBoards(userBoard.getUserBoard(), answerBoard.getAnswerBoard());
+        SudokuBoard.initialiseBoard(difficulty, userBoard.getUserBoard(), answerBoard.getAnswerBoard());
 //        userMVC();
-          sudokuMVC();
+        sudokuMVC();
 //        printIntro();
 //        user.initialiseUser();
-//        int difficulty = selectDifficulty();
-//        SudokuBoard.clearBoards( userBoard.getUserBoard(), answerBoard.getAnswerBoard());
-//        SudokuBoard.initialiseBoard(difficulty, userBoard.getUserBoard(), answerBoard.getAnswerBoard());
+
     }
-    
+
     public void userMVC() {
         UserView view = new UserView();
         UserModel model = new UserModel(view);
-        
+
         model.addObserver(view);
-        
+
         UserController controller = new UserController();
         controller.addModel(model);
         controller.addView(view);
         view.addController(controller);
     }
-    
+
     public void sudokuMVC() {
-        SudokuView view = new SudokuView();
+        SudokuView view = new SudokuView(userBoard.getUserBoard());
         SudokuModel model = new SudokuModel(view);
-        
+
         model.addObserver(view);
-        
-        SudokuController controller = new SudokuController();
+
+        SudokuController controller = new SudokuController(model, view);
         controller.addModel(model);
         controller.addView(view);
-        view.addController(controller);
     }
 
     //Asks user to input difficulty level, validates input between 1 and 9

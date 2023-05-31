@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Mon May 29 16:07:20 NZST 2023:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0188-65b0-6996-00000727ded0 
+Wed May 31 14:07:18 NZST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0188-6f8f-3de1-00000727e420 
 on database directory C:\Users\Bewic\Documents\NetBeansProjects\Sudoku_Application\SudokuDB with class loader sun.misc.Launcher$AppClassLoader@6d06d69c 
 Loaded from file:/C:/Users/Bewic/Documents/NetBeansProjects/Sudoku_Application/lib/derby.jar
 java.vendor=Oracle Corporation
