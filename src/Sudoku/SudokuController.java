@@ -49,7 +49,8 @@ public class SudokuController {
         public void actionPerformed(ActionEvent e) {
             model.endGame(sudokuBoard);
             view.closeWindow();
-            gameEnd.GameEndMVC(username);
+            Object selectedDifficulty = view.difficulty.getSelectedItem();
+            gameEnd.GameEndMVC(username, selectedDifficulty.toString(), model.getTotalTime());
         }
     }
 

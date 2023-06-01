@@ -10,13 +10,14 @@ package Sudoku;
  */
 public class GameEndMVC {
 
-    public void GameEndMVC(String username) {
+    public void GameEndMVC(String username, String difficulty, double time) {
         GameEndView view = new GameEndView();
         GameEndModel model = new GameEndModel(username);
 
 //        model.addObserver(view);
-        GameEndController controller = new GameEndController();
-        controller.addModel(model);
-        controller.addView(view);
+        GameEndController controller = new GameEndController( view, model);
+        model.calculateScore(difficulty, time);
+        controller.setScores();
+
     }
 }

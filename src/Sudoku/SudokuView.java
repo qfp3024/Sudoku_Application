@@ -36,9 +36,9 @@ public class SudokuView implements Observer {
     private JLabel gameTitle = new JLabel("Sudoku");
     private JLabel difficultyLabel = new JLabel("Difficulty:");
     JComboBox<String> difficulty = new JComboBox<>();
-    private JButton endGameButton = new JButton("End Game");
+    private JButton endGameBtn = new JButton("End Game");
     private JFrame frame = new JFrame();
-    GridBagConstraints grid = new GridBagConstraints();
+    private GridBagConstraints grid = new GridBagConstraints();
 
     public SudokuView(int[][] userBoard, String username) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +68,7 @@ public class SudokuView implements Observer {
 
         frame.add(gameTitle, BorderLayout.NORTH);
         frame.add(containerPanel, BorderLayout.CENTER);
-        frame.add(endGameButton, BorderLayout.SOUTH);
+        frame.add(endGameBtn, BorderLayout.SOUTH);
 
         frame.setSize(400, 400);
         frame.setVisible(true);
@@ -124,7 +124,7 @@ public class SudokuView implements Observer {
     }
 
     public void addButtonListener(ActionListener listener) {
-        endGameButton.addActionListener(listener);
+        endGameBtn.addActionListener(listener);
     }
 
     public void addTextFieldFocusListener(FocusAdapter listener) {

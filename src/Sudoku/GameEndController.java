@@ -4,6 +4,9 @@
  */
 package Sudoku;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author Bewick
@@ -13,16 +16,37 @@ public class GameEndController {
     GameEndModel model;
     GameEndView view;
 
-    public GameEndController() {
-        int score = model.getScore();
-        view.setScore(score);
+    public GameEndController(GameEndView view, GameEndModel model) {
+        this.view = view;
+        this.model = model;
+        
+        view.addYesButtonListener(new GameEndController.yesButtonListener());
+        view.addNoButtonListener(new GameEndController.noButtonListener());
     }
 
-    public void addModel(GameEndModel m) {
-        this.model = m;
+
+    class yesButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Pressed Yes");
+        }
     }
 
-    public void addView(GameEndView v) {
-        this.view = v;
+    class noButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Pressed No");
+        }
     }
+
+    public void setScores() {
+        int oldScore = model.getOldScore();
+        view.setOldScore(oldScore);
+
+        double newScore = model.getNewScore();
+        view.setNewScore(newScore);
+    }
+
 }

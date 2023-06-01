@@ -103,12 +103,11 @@ public class SudokuDB {
             if (conn != null) {
                 String query = "SELECT USERNAME, SCORE FROM USERS WHERE USERS.USERNAME = ?";
                 PreparedStatement statement = conn.prepareStatement(query);
-                statement.setString(0, username);
+                statement.setString(1, username);
 
                 ResultSet rs = statement.executeQuery();
-                while (rs.next()) {
-                    String pass = rs.getString("password");
-                    score = rs.getInt(score);
+                if (rs.next()) {
+                    score = rs.getInt("SCORE");
                 }
             } else {
                 System.out.println("No database connection");

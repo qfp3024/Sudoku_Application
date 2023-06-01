@@ -15,6 +15,7 @@ public class SudokuModel extends Observable {
 
     SudokuView view;
     private long startTime = System.nanoTime();
+    private double totalTime = 0.00;
 
     public SudokuModel(SudokuView view) {
         System.out.println("Model");
@@ -105,9 +106,7 @@ public class SudokuModel extends Observable {
         mergeBoards(sudokuBoard.userBoard);
         CheckBoards checkBoard = new CheckBoards();
         if (checkBoard.checkBoardCorrect(sudokuBoard.userBoard, sudokuBoard.answerBoard)) {
-            Integer timeInteger = convertToMinutes(startTime);
-            System.out.println("Time: " + timeInteger + " minutes");
-
+            totalTime = convertToMinutes(startTime);
         } else {
             System.out.println("You did not successfully complete the Sudoku Board");
             view.incorrectBoard();
@@ -130,17 +129,22 @@ public class SudokuModel extends Observable {
         return userBoard;
     }
 
-    public int convertToMinutes(long startTime) {
-        int minutes = 0;
-        long endTime = System.nanoTime();
-        long durationSecs = (endTime - startTime) / 1000000000;
+    public double convertToMinutes(double startTime) {
+        double minutes = 0;
+        double endTime = System.nanoTime();
+        double durationSecs = (endTime - startTime) / 1000000000;
+        minutes = durationSecs;
         if (durationSecs >= 60) {
-            minutes = (int) (durationSecs / 60);
+            minutes = (durationSecs / 60);
         }
         return minutes;
     }
 
     public void resetTimer() {
         startTime = System.nanoTime();
+    }
+    
+    public double getTotalTime() {
+        return totalTime;
     }
 }
