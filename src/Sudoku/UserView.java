@@ -24,7 +24,7 @@ import javax.swing.JTextField;
  *
  * @author Bewick
  */
-public class UserView implements Observer{
+public class UserView implements Observer {
 
     //Login Variables
     private JTextArea myJTextArea;
@@ -39,12 +39,12 @@ public class UserView implements Observer{
     public JPasswordField pwInput = new JPasswordField(10);
     private JLabel nameError = new JLabel("Incorrect username or password!");
     private JButton loginButton = new JButton("Login");
-    
+    private JFrame frame = new JFrame("User GUI");
+
     private UserController userController;
 
     //Sudoku Game Variables
     public UserView() {
-        JFrame frame = new JFrame("User GUI");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 250);
         frame.setLocationRelativeTo(null);
@@ -88,12 +88,10 @@ public class UserView implements Observer{
         frame.setVisible(true);
 
     }
-    
+
     public void InputError() {
         JOptionPane.showMessageDialog(null, "Wrong password", "Error", JOptionPane.ERROR_MESSAGE);
     }
-
-    
 
     public void addController(UserController controller) {
         this.userController = controller;
@@ -111,5 +109,9 @@ public class UserView implements Observer{
     @Override
     public void update(Observable o, Object obj) {
         myJTextArea.append(obj + "\n");
+    }
+
+    public void closeWindow() {
+        frame.dispose();
     }
 }

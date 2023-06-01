@@ -17,15 +17,18 @@ public class SudokuController {
 
     SudokuModel model;
     SudokuView view;
+    GameEndMVC gameEnd = new GameEndMVC();
     int[][] userBoard;
     SudokuBoard sudokuBoard;
+    String username;
     
 
-    public SudokuController(SudokuModel model, SudokuView view, SudokuBoard sudokuBoard) {
+    public SudokuController(SudokuModel model, SudokuView view, SudokuBoard sudokuBoard, String username) {
         this.model = model;
         this.view = view;
         this.sudokuBoard = sudokuBoard;
         this.userBoard = sudokuBoard.userBoard;
+        this.username = username;
         
         view.addButtonListener(new ButtonListener());
         view.addTextFieldFocusListener(new TextFieldFocusListener());
@@ -35,7 +38,8 @@ public class SudokuController {
     class ComboBoxListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            model.setDifficulty();
+            model.setDifficulty(sudokuBoard);
+            model.resetTimer();
         }
     }
 
@@ -44,6 +48,8 @@ public class SudokuController {
         @Override
         public void actionPerformed(ActionEvent e) {
             model.endGame(sudokuBoard);
+            view.closeWindow();
+            gameEnd.GameEndMVC(username);
         }
     }
 

@@ -29,8 +29,7 @@ public class SudokuGame {
         int difficulty = 0;
         SudokuBoard.clearBoards(userBoard, answerBoard);
         SudokuBoard.initialiseBoard(difficulty, userBoard, answerBoard);
-//        userMVC();
-        sudokuMVC("User");
+        userMVC();
 
     }
 
@@ -47,16 +46,17 @@ public class SudokuGame {
     }
 
     public void sudokuMVC(String username) {
-        long startTime = System.nanoTime();
         SudokuView view = new SudokuView(userBoard, username);
-        SudokuModel model = new SudokuModel(view, startTime);
+        SudokuModel model = new SudokuModel(view);
 
         model.addObserver(view);
 
-        SudokuController controller = new SudokuController(model, view, sudokuBoard);
+        SudokuController controller = new SudokuController(model, view, sudokuBoard, username);
         controller.addModel(model);
         controller.addView(view);
     }
+    
+   
 
     //Asks user if they want to update their time (score) 
     //If yes; runs addUserMap method with the puzzle time

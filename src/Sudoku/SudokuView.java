@@ -55,7 +55,7 @@ public class SudokuView implements Observer {
         difficulty.addItem("Master");
 
         addSudokuGrid(userBoard);
-        
+
         JPanel optionsPanel = new JPanel();
         optionsPanel.add(usernameLabel);
         optionsPanel.add(Jusername);
@@ -144,4 +144,11 @@ public class SudokuView implements Observer {
         JOptionPane.showMessageDialog(null, "Please enter a single number", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    public void incorrectBoard() {
+        JOptionPane.showMessageDialog(null, "There is at least one incorrect number", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void closeWindow() {
+        frame.dispose();
+    }
 }

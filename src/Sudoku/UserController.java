@@ -25,6 +25,7 @@ public class UserController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         System.out.println("Controller: acting on model");
         if(model.loginUser()) {
+            view.closeWindow();
             sudokuGame.sudokuMVC(view.getunInput());
         }
         else {

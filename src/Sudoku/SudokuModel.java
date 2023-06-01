@@ -14,11 +14,9 @@ import javax.swing.JTextField;
 public class SudokuModel extends Observable {
 
     SudokuView view;
-    private long startTime;
-    private SudokuBoard userInputBoard;
-    private SudokuBoard answerBoard;
+    private long startTime = System.nanoTime();
 
-    public SudokuModel(SudokuView view, long startTime) {
+    public SudokuModel(SudokuView view) {
         System.out.println("Model");
         this.view = view;
         this.startTime = startTime;
@@ -49,18 +47,16 @@ public class SudokuModel extends Observable {
         return cellContent.matches("-?\\d+");
     }
 
-    public void setDifficulty() {
+    public void setDifficulty(SudokuBoard sudokuBoard) {
         int difficulty = 0;
         difficulty = getDifficulty(difficulty);
-        userInputBoard = new SudokuBoard();
-        answerBoard = new SudokuBoard();
-        updateBoard(difficulty);
+        updateBoard(difficulty, sudokuBoard);
     }
 
-    public void updateBoard(int difficulty) {
-        SudokuBoard.clearBoards(userInputBoard.getUserBoard(), answerBoard.getAnswerBoard());
-        SudokuBoard.initialiseBoard(difficulty, userInputBoard.getUserBoard(), answerBoard.getAnswerBoard());
-        setSudokuBoard(userInputBoard.getUserBoard());
+    public void updateBoard(int difficulty, SudokuBoard sudokuBoard) {
+        SudokuBoard.clearBoards(sudokuBoard.getUserBoard(), sudokuBoard.getAnswerBoard());
+        SudokuBoard.initialiseBoard(difficulty, sudokuBoard.getUserBoard(), sudokuBoard.getAnswerBoard());
+        setSudokuBoard(sudokuBoard.getUserBoard());
     }
 
     public int getDifficulty(int difficulty) {
@@ -91,7 +87,7 @@ public class SudokuModel extends Observable {
         JTextField[][] board = view.board;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                String newNumber = Integer.toString(userBoard[column][row]);
+                String newNumber = Integer.toString(userBoard[row][column]);
 
                 if (newNumber.equals("0")) {
                     board[row][column].setEditable(true);
@@ -109,17 +105,12 @@ public class SudokuModel extends Observable {
         mergeBoards(sudokuBoard.userBoard);
         CheckBoards checkBoard = new CheckBoards();
         if (checkBoard.checkBoardCorrect(sudokuBoard.userBoard, sudokuBoard.answerBoard)) {
-            System.out.println("Congratulations, you correctly completed the Sudoku Board!");
-
-//            if (!user.userMap.containsKey(user.username)) {
-//                updateTime(startTime);
-//            } else {
             Integer timeInteger = convertToMinutes(startTime);
             System.out.println("Time: " + timeInteger + " minutes");
-//                updateTime(startTime);
-//            }
+
         } else {
             System.out.println("You did not successfully complete the Sudoku Board");
+            view.incorrectBoard();
         }
 
     }
@@ -128,10 +119,10 @@ public class SudokuModel extends Observable {
         int viewNumber = 0;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                if (view.board[column][row].getText().equals("")) {
+                if (view.board[row][column].getText().equals("")) {
                     viewNumber = 0;
                 } else {
-                    viewNumber = Integer.parseInt(view.board[column][row].getText());
+                    viewNumber = Integer.parseInt(view.board[row][column].getText());
                 }
                 userBoard[row][column] = viewNumber;
             }
@@ -148,5 +139,8 @@ public class SudokuModel extends Observable {
         }
         return minutes;
     }
-   
+
+    public void resetTimer() {
+        startTime = System.nanoTime();
+    }
 }
