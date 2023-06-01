@@ -4,6 +4,7 @@
  */
 package Sudoku;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -29,77 +30,71 @@ public class SudokuView implements Observer {
 
     private JTextArea myJTextArea;
     private JLabel usernameLabel = new JLabel("Username:");
-    private JLabel username = new JLabel();
+    private JLabel Jusername;
     JTextField[][] board = new JTextField[9][9];
     private JPanel boardPanel = new JPanel(new GridBagLayout());
     private JLabel gameTitle = new JLabel("Sudoku");
+    private JLabel difficultyLabel = new JLabel("Difficulty:");
+    JComboBox<String> difficulty = new JComboBox<>();
     private JButton endGameButton = new JButton("End Game");
+    private JFrame frame = new JFrame();
     GridBagConstraints grid = new GridBagConstraints();
-    JFrame frame = new JFrame("Game GUI");
 
-    JLabel difficultyLabel = new JLabel("Difficulty:");
-    JComboBox difficulty = new JComboBox();
-    
-//    private SudokuController sudokuController;
-    int width = 400;
-    int height = 400;
-
-    public SudokuView(int[][] userBoard) {
-
+    public SudokuView(int[][] userBoard, String username) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(width, height);
         frame.setTitle("Sudoku Board");
-        grid.gridx = 0;
-        grid.gridy = 0;
-        grid.gridwidth = 11;
+        frame.setLayout(new BorderLayout());
+
         gameTitle.setFont(new Font("Arial", Font.BOLD, 24));
-        boardPanel.add(gameTitle, grid);
-       
-        
-        
-        grid.gridy = 1;
-        grid.gridwidth = 5;
-        boardPanel.add(difficultyLabel, grid);
+        Jusername = new JLabel(username);
+
         difficulty.addItem("Beginner");
-        difficulty.addItem("Ameteur");
+        difficulty.addItem("Amateur");
         difficulty.addItem("Intermediate");
         difficulty.addItem("Expert");
         difficulty.addItem("Master");
-        grid.gridx = 5;
-        grid.gridwidth = 6;
-        boardPanel.add(difficulty, grid);
 
+        addSudokuGrid(userBoard);
+        
+        JPanel optionsPanel = new JPanel();
+        optionsPanel.add(usernameLabel);
+        optionsPanel.add(Jusername);
+        optionsPanel.add(difficultyLabel);
+        optionsPanel.add(difficulty);
+
+        JPanel containerPanel = new JPanel(new BorderLayout());
+        containerPanel.add(boardPanel, BorderLayout.CENTER);
+        containerPanel.add(optionsPanel, BorderLayout.NORTH);
+
+        frame.add(gameTitle, BorderLayout.NORTH);
+        frame.add(containerPanel, BorderLayout.CENTER);
+        frame.add(endGameButton, BorderLayout.SOUTH);
+
+        frame.setSize(400, 400);
+        frame.setVisible(true);
+    }
+
+    public void addSudokuGrid(int[][] userBoard) {
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                grid.gridx = row;
-                grid.gridy = column + 2;
-                grid.gridwidth = 1;
-
-                grid.insets = splitCells(row, column);
-                grid.fill = GridBagConstraints.BOTH;
-                grid.weightx = 1.0;
-                grid.weighty = 1.0;
-
-                String cellNumber = Integer.toString(userBoard[column][row]);
+                String cellNumber = Integer.toString(userBoard[row][column]);
                 if (cellNumber.equals("0")) {
                     cellNumber = "";
                 }
                 board[row][column] = new JTextField(cellNumber);
-                if (!cellNumber.equals("")) {
-                    board[row][column].setEditable(false);
-                }
+                board[row][column].setEditable(false);
                 board[row][column].setFont(new Font("Arial", Font.BOLD, 16));
+                board[row][column].setHorizontalAlignment(JTextField.CENTER);
+
+                grid.gridx = column;
+                grid.gridy = row;
+                grid.fill = GridBagConstraints.BOTH;
+                grid.insets = splitCells(row, column);
+                grid.weightx = 1.0;
+                grid.weighty = 1.0;
                 boardPanel.add(board[row][column], grid);
             }
         }
-
-        grid.gridx = 0;
-        grid.gridy = 11;
-        grid.gridwidth = 11;
-        grid.insets = new Insets(5, 10, 0, 10);
-        boardPanel.add(endGameButton, grid);
-        frame.add(boardPanel);
-        frame.setVisible(true);
     }
 
     public Insets splitCells(int row, int column) {
@@ -116,9 +111,9 @@ public class SudokuView implements Observer {
         if (splitBtm && splitSide) {
             return new Insets(0, 0, 5, 5);
         } else if (splitBtm && !splitSide) {
-            return new Insets(0, 0, 5, 0);
-        } else if (!splitBtm && splitSide) {
             return new Insets(0, 0, 0, 5);
+        } else if (!splitBtm && splitSide) {
+            return new Insets(0, 0, 5, 0);
         }
 
         return new Insets(0, 0, 0, 0);

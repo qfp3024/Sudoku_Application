@@ -8,8 +8,6 @@ package Sudoku;
  *
  * @author Bewick
  */
-//import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class SudokuGame {
 
@@ -22,19 +20,17 @@ public class SudokuGame {
         userBoard = sudokuBoard.userBoard;
         answerBoard = sudokuBoard.answerBoard;
         sudokuDB = new SudokuDB();
-    }
-    Scanner scanner = new Scanner(System.in);
+    }    
 
     //Runs initialiseUser to set the current user
     //Sets up the board by running initialiseBoard
     public void initialiseGame() {
         sudokuDB.connectSudokuDB();
-//        int difficulty = selectDifficulty();
         int difficulty = 0;
         SudokuBoard.clearBoards(userBoard, answerBoard);
         SudokuBoard.initialiseBoard(difficulty, userBoard, answerBoard);
-        userMVC();
-//        sudokuMVC();
+//        userMVC();
+        sudokuMVC("User");
 
     }
 
@@ -50,9 +46,9 @@ public class SudokuGame {
         view.addController(controller);
     }
 
-    public void sudokuMVC() {
+    public void sudokuMVC(String username) {
         long startTime = System.nanoTime();
-        SudokuView view = new SudokuView(userBoard);
+        SudokuView view = new SudokuView(userBoard, username);
         SudokuModel model = new SudokuModel(view, startTime);
 
         model.addObserver(view);
@@ -112,50 +108,4 @@ public class SudokuGame {
 //            }
 //        }
 //    }
-    //Asks for X, Y, and number inputs, then runs method to update the board with
-    // the new number, before printing the new board
-    // Runs endGame() method once the user enters 0
-//    public void playGame() {
-//        long startTime = System.nanoTime();
-//        int XInput = 0;
-//        int YInput = 0;
-//        int numInput = 0;
-//
-//        while (true) {
-//            System.out.print("X:");
-//            XInput = inputNumber();
-//            if (XInput == 0) {
-//                break;
-//            }
-//            System.out.print("Y:");
-//            YInput = inputNumber();
-//            if (YInput == 0) {
-//                break;
-//            }
-//
-//            System.out.print("Number:");
-//            numInput = inputNumber();
-//            if (numInput == 0) {
-//                break;
-//            }
-//
-//            System.out.println("\n");
-//            userBoard.updateBoard(XInput, YInput, numInput);
-//            SudokuBoardPrinter.printBoard(userBoard.getUserBoard());
-//        }
-//        endGame(startTime);
-//    }
-   
-    //Uses the System.nanoTime to measure how long the game has been running since startTime was declared
-    //Finds the seconds the game was running for by subtracting startTime from the time at the end
-    //Converts to minutes, and returns the time, in minutes.
-    public int convertToMinutes(long startTime) {
-        int minutes = 0;
-        long endTime = System.nanoTime();
-        long durationSecs = (endTime - startTime) / 1000000000;
-        if (durationSecs >= 60) {
-            minutes = (int) (durationSecs / 60);
-        }
-        return minutes;
-    }
 }
