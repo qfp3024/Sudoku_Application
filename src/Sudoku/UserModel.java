@@ -15,7 +15,6 @@ public class UserModel extends Observable {
     UserView view;
     public String username = null;
     public String password = null;
-    int score = 0;
     SudokuDB database = new SudokuDB();
     
     public UserModel(UserView view) {
@@ -31,5 +30,9 @@ public class UserModel extends Observable {
             return database.checkName(username, password);
         }
         return false;
+    }
+    
+     public void getValidUsername(String username) {
+        boolean isValid = username.matches("[a-zA-Z\\s]+");
     }
 }

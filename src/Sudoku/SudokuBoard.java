@@ -25,7 +25,6 @@ public class SudokuBoard {
     public static void initialiseBoard(int difficulty, int[][] userBoard, int[][] answerBoard) {
         FillBoards.fillBoard(0, 0, answerBoard);
         FillBoards.fillUserBoard(difficulty, userBoard, answerBoard);
-        SudokuBoardPrinter.printBoard(answerBoard);
     }
 
     //Adds the numInput into the board at the co-ordinates specified by YInput and XInput
