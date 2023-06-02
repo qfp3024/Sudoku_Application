@@ -157,4 +157,8 @@ public class GameEndView {
                 return false;
         }
     }
+    
+    public void closeWindow() {
+        frame.dispose();
+    }
 }

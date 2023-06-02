@@ -24,20 +24,20 @@ public class GameEndController {
         this.model = model;
         this.time = time;
         this.username = username;
-        
+
         view.addYesButtonListener(new GameEndController.yesButtonListener());
         view.addNoButtonListener(new GameEndController.noButtonListener());
     }
-
 
     class yesButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Pressed Yes");
             model.updateScore(time, username);
             if (view.isReplay()) {
                 replayGame = true;
+            } else {
+                view.closeWindow();
             }
         }
     }
@@ -46,7 +46,11 @@ public class GameEndController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Pressed No");
+            if (view.isReplay()) {
+                replayGame = true;
+            } else {
+                view.closeWindow();
+            }
         }
     }
 
@@ -56,9 +60,5 @@ public class GameEndController {
 
         double newScore = model.getNewScore();
         view.setNewScore(newScore);
-    }
-
-    public boolean getReplayGame() {
-        return replayGame;
     }
 }

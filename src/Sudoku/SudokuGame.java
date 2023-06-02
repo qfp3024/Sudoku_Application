@@ -26,10 +26,9 @@ public class SudokuGame {
     public void initialiseGame() {
         sudokuDB.connectSudokuDB();
         int difficulty = 0;
-        SudokuBoard.clearBoards(userBoard, answerBoard);
+//        SudokuBoard.clearBoards(userBoard, answerBoard);
         SudokuBoard.initialiseBoard(difficulty, userBoard, answerBoard);
         userMVC();
-
     }
 
     public void userMVC() {
