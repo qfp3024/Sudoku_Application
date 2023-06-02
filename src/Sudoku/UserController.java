@@ -23,7 +23,6 @@ public class UserController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Controller: acting on model");
         if(model.loginUser()) {
             view.closeWindow();
             sudokuGame.sudokuMVC(view.getunInput());
@@ -34,12 +33,10 @@ public class UserController implements ActionListener {
     }
     
      public void addModel(UserModel m) {
-        System.out.println("Controller: adding model");
         this.model = m;
     }
 
     public void addView(UserView v) {
-        System.out.println("Controller: adding view");
         this.view = v;
     }
 }

@@ -17,7 +17,6 @@ public class GameEndController {
     private GameEndView view;
     private double time;
     private String username;
-    private boolean replayGame = false;
 
     public GameEndController(GameEndView view, GameEndModel model, double time, String username) {
         this.view = view;
@@ -35,7 +34,10 @@ public class GameEndController {
         public void actionPerformed(ActionEvent e) {
             model.updateScore(time, username);
             if (view.isReplay()) {
-                replayGame = true;
+                SudokuGame sudokuGame = new SudokuGame();
+                sudokuGame.setUsername(username);
+                sudokuGame.initialiseGame();
+                view.closeWindow();
             } else {
                 view.closeWindow();
             }
@@ -47,7 +49,10 @@ public class GameEndController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (view.isReplay()) {
-                replayGame = true;
+                SudokuGame sudokuGame = new SudokuGame();
+                sudokuGame.setUsername(username);
+                sudokuGame.initialiseGame();
+                view.closeWindow();
             } else {
                 view.closeWindow();
             }

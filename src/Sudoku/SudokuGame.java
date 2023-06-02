@@ -14,6 +14,7 @@ public class SudokuGame {
     int answerBoard[][];
     private SudokuBoard sudokuBoard = new SudokuBoard();
     private SudokuDB sudokuDB;
+    private String username = null;
 
     public SudokuGame() {
         userBoard = sudokuBoard.userBoard;
@@ -28,7 +29,11 @@ public class SudokuGame {
         int difficulty = 0;
 //        SudokuBoard.clearBoards(userBoard, answerBoard);
         SudokuBoard.initialiseBoard(difficulty, userBoard, answerBoard);
+        if (username == null) {
         userMVC();
+        } else {
+            this.sudokuMVC(username);
+        }
     }
 
     public void userMVC() {
@@ -52,5 +57,9 @@ public class SudokuGame {
         SudokuController controller = new SudokuController(model, view, sudokuBoard, username);
         controller.addModel(model);
         controller.addView(view);
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
