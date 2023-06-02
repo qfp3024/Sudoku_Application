@@ -26,8 +26,8 @@ public class SudokuGame {
     //Sets up the board by running initialiseBoard
     public void initialiseGame() {
         sudokuDB.connectSudokuDB();
-        int difficulty = 0;
-//        SudokuBoard.clearBoards(userBoard, answerBoard);
+        int difficulty = 2;
+        SudokuBoard.clearBoards(sudokuBoard.getUserBoard(), sudokuBoard.getAnswerBoard());
         SudokuBoard.initialiseBoard(difficulty, userBoard, answerBoard);
         if (username == null) {
         userMVC();

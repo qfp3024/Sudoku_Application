@@ -89,10 +89,14 @@ public class UserView implements Observer {
 
     }
 
-    public void InputError() {
+    public void pswError() {
         JOptionPane.showMessageDialog(null, "Wrong password", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    public void unError() {
+        JOptionPane.showMessageDialog(null, "Please enter a valid username\nUsernames can only contain letters and numbers ", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
     public void addController(UserController controller) {
         this.userController = controller;
         loginButton.addActionListener(controller);

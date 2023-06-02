@@ -33,8 +33,8 @@ public class SudokuDB {
         if (!tableExists("Users")) {
             try {
                 statement = conn.createStatement();
-                String sqlCreateTable = "CREATE TABLE USERS (USERID VARCHAR(20), USERNAME VARCHAR(20), PASSWORD VARCHAR(20), SCORE DOUBLE, TIME DOUBLE)";
-                String sqlInsertData1 = "INSERT INTO USERS (USERID, USERNAME, PASSWORD, SCORE, TIME) VALUES ('1', 'Bob', 'password', 84.56, 3.45)";
+                String sqlCreateTable = "CREATE TABLE USERS (USERNAME VARCHAR(20), PASSWORD VARCHAR(20), SCORE DOUBLE)";
+                String sqlInsertData1 = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES ('Bob', 'password', 84.56)";
 
                 statement.executeUpdate(sqlCreateTable);
                 statement.executeUpdate(sqlInsertData1);
@@ -83,7 +83,7 @@ public class SudokuDB {
                     PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
                     insertStatement.setString(1, username);
                     insertStatement.setString(2, password);
-                    insertStatement.setInt(3, 0);
+                    insertStatement.setDouble(3, 0.00);
                     insertStatement.executeUpdate();
 
                     userCheck = true;
@@ -121,15 +121,14 @@ public class SudokuDB {
     public void updateUserScore(double score, double time, String username) {
         try {
             if (conn != null) {
-                String query = "UPDATE USERS SET SCORE = ?, TIME = ? WHERE USERNAME = ?";
+                String query = "UPDATE USERS SET SCORE = ? WHERE USERNAME = ?";
                 PreparedStatement statement = conn.prepareStatement(query);
                 statement.setDouble(1, score);
-                statement.setDouble(2, time);
-                statement.setString(3, username);
+                statement.setString(2, username);
 
                 int rowsUpdated = statement.executeUpdate();
                 if (rowsUpdated > 0) {
-                    System.out.println("User score and time updated successfully.");
+                    System.out.println("User score updated successfully.");
                 } else {
                     System.out.println("User not found or no rows updated.");
                 }

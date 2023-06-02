@@ -47,10 +47,13 @@ public class SudokuController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            model.endGame(sudokuBoard);
-            view.closeWindow();
-            Object selectedDifficulty = view.difficulty.getSelectedItem();
-            gameEnd.GameEndMVC(username, selectedDifficulty.toString(), model.getTotalTime());
+            if (model.endGame(sudokuBoard)) {
+                view.closeWindow();
+                Object selectedDifficulty = view.difficulty.getSelectedItem();
+                gameEnd.GameEndMVC(username, selectedDifficulty.toString(), model.getTotalTime());
+            } else {
+                view.incorrectBoard();
+            }
         }
     }
 

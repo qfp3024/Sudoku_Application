@@ -16,23 +16,29 @@ public class UserModel extends Observable {
     public String username = null;
     public String password = null;
     SudokuDB database = new SudokuDB();
-    
+
     public UserModel(UserView view) {
-        System.out.println("Model");
         this.view = view;
     }
-    
-    public boolean loginUser() {
-        System.out.println("Logging in the user");
-        username = view.getunInput();
-        password = view.getpwInput();
-        if (username != null && password != null) {
-            return database.checkName(username, password);
+
+    public int loginUser() {
+        if (!getValidUsername(view.getunInput())) {
+            return 1;//If invalid username return 1
+        } else {
+            username = view.getunInput();
+            password = view.getpwInput();
+            if (username != null && password != null) {
+                if (database.checkName(username, password)) {
+                    return 0; //If the valid username matches with the password return 0
+                }
+            } else {
+                return 2;//If passwords don't match return 2
+            }
         }
-        return false;
+        return 2;//Default causes wrong password error
     }
-    
-     public void getValidUsername(String username) {
-        boolean isValid = username.matches("[a-zA-Z\\s]+");
+
+    public boolean getValidUsername(String username) {
+        return username.matches("^[a-zA-Z0-9]+$");
     }
 }

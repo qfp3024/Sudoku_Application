@@ -66,7 +66,7 @@ public class SudokuModel extends Observable {
             case "Beginner":
                 difficulty = 2;
                 break;
-            case "Ameteur":
+            case "Amateur":
                 difficulty = 3;
                 break;
             case "Intermediate":
@@ -102,16 +102,15 @@ public class SudokuModel extends Observable {
         view.board = board;
     }
 
-    public void endGame(SudokuBoard sudokuBoard) {
+    public boolean endGame(SudokuBoard sudokuBoard) {
         mergeBoards(sudokuBoard.userBoard);
         CheckBoards checkBoard = new CheckBoards();
         if (checkBoard.checkBoardCorrect(sudokuBoard.userBoard, sudokuBoard.answerBoard)) {
             totalTime = convertToMinutes(startTime);
+            return true;
         } else {
-            System.out.println("You did not successfully complete the Sudoku Board");
-            view.incorrectBoard();
+            return false;
         }
-
     }
 
     public int[][] mergeBoards(int[][] userBoard) {
@@ -143,7 +142,7 @@ public class SudokuModel extends Observable {
     public void resetTimer() {
         startTime = System.nanoTime();
     }
-    
+
     public double getTotalTime() {
         return totalTime;
     }

@@ -54,7 +54,7 @@ public class SudokuView implements Observer {
 
         gameTitle.setFont(new Font("Arial", Font.BOLD, 24));
         titlePanel.add(gameTitle);
-        
+
         Jusername = new JLabel(username);
 
         difficulty.addItem("Beginner");
@@ -88,11 +88,16 @@ public class SudokuView implements Observer {
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
                 String cellNumber = Integer.toString(userBoard[row][column]);
-                if (cellNumber.equals("0")) {
-                    cellNumber = "";
-                }
                 board[row][column] = new JTextField(cellNumber);
-                board[row][column].setEditable(false);
+
+                if (cellNumber.equals("0")) {
+                    board[row][column].setEditable(true);
+                    cellNumber = "";
+                } else {
+                    board[row][column].setEditable(false);
+                }
+                
+                board[row][column].setText(cellNumber);
                 board[row][column].setFont(new Font("Arial", Font.BOLD, 16));
                 board[row][column].setHorizontalAlignment(JTextField.CENTER);
                 board[row][column].setBackground(Color.WHITE);

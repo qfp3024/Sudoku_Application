@@ -18,6 +18,5 @@ public class GameEndMVC {
         GameEndController controller = new GameEndController( view, model, time, username);
         model.calculateScore(difficulty, time);
         controller.setScores();
-
     }
 }

@@ -16,23 +16,24 @@ public class UserController implements ActionListener {
     private UserModel model;
     private UserView view;
     private SudokuGame sudokuGame;
-    
+
     public UserController(SudokuGame sudokuGame) {
         this.sudokuGame = sudokuGame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(model.loginUser()) {
+        if (model.loginUser() == 0) {
             view.closeWindow();
             sudokuGame.sudokuMVC(view.getunInput());
-        }
-        else {
-            view.InputError();
+        } else if (model.loginUser() == 1) {
+            view.unError();
+        } else if (model.loginUser() == 2) {
+            view.pswError();
         }
     }
-    
-     public void addModel(UserModel m) {
+
+    public void addModel(UserModel m) {
         this.model = m;
     }
 

@@ -17,7 +17,6 @@ public class GameEndModel {
     private double totalScore;
 
     public GameEndModel(String username) {
-        this.database = database;
         this.username = username;
     }
 
@@ -35,7 +34,7 @@ public class GameEndModel {
             case "Beginner":
                 difficultyValue = 1.00;
                 break;
-            case "Ameteur":
+            case "Amateur":
                 difficultyValue = 2.00;
                 break;
             case "Intermediate":
@@ -52,6 +51,7 @@ public class GameEndModel {
         }
 
         totalScore = difficultyValue / time;
+        totalScore *= 100;
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         String decimalString = decimalFormat.format(totalScore);
         totalScore = Double.parseDouble(decimalString);
