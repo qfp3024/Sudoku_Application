@@ -15,13 +15,12 @@ import java.awt.event.FocusEvent;
  */
 public class SudokuController {
 
-    SudokuModel model;
-    SudokuView view;
-    GameEndMVC gameEnd = new GameEndMVC();
-    int[][] userBoard;
-    SudokuBoard sudokuBoard;
-    String username;
-    
+    private SudokuModel model;
+    private SudokuView view;
+    private GameEndMVC gameEnd = new GameEndMVC();
+    private int[][] userBoard;
+    private SudokuBoard sudokuBoard;
+    private String username;
 
     public SudokuController(SudokuModel model, SudokuView view, SudokuBoard sudokuBoard, String username) {
         this.model = model;
@@ -29,13 +28,14 @@ public class SudokuController {
         this.sudokuBoard = sudokuBoard;
         this.userBoard = sudokuBoard.userBoard;
         this.username = username;
-        
+
         view.addButtonListener(new ButtonListener());
         view.addTextFieldFocusListener(new TextFieldFocusListener());
         view.addComboBoxListener(new ComboBoxListener());
     }
-    
+
     class ComboBoxListener implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             model.setDifficulty(sudokuBoard);
@@ -58,7 +58,7 @@ public class SudokuController {
 
         @Override
         public void focusLost(FocusEvent e) {
-            for(int row = 0; row < 9; row++) {
+            for (int row = 0; row < 9; row++) {
                 for (int column = 0; column < 9; column++) {
                     model.checkCellContent(row, column);
                 }

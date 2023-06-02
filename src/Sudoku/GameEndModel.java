@@ -4,31 +4,34 @@
  */
 package Sudoku;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Bewick
  */
 public class GameEndModel {
-    
-   private SudokuDB database = new SudokuDB();
-   private String username;
-   private double totalScore;
-   
-   public GameEndModel(String username) {
-       this.username = username;
-   }
-   
-   public int getOldScore() {
-      return database.getUserScore(username);
-   }
-   
-   public double getNewScore() {
-       return totalScore;
-   }
-   
-   public void calculateScore(String difficulty, double time) {
-       double difficultyValue = 0.00;
-       switch (difficulty) {
+
+    private SudokuDB database = new SudokuDB();
+    private String username;
+    private double totalScore;
+
+    public GameEndModel(String username) {
+        this.database = database;
+        this.username = username;
+    }
+
+    public double getOldScore() {
+        return database.getUserScore(username);
+    }
+
+    public double getNewScore() {
+        return totalScore;
+    }
+
+    public void calculateScore(String difficulty, double time) {
+        double difficultyValue = 0.00;
+        switch (difficulty) {
             case "Beginner":
                 difficultyValue = 1.00;
                 break;
@@ -47,7 +50,14 @@ public class GameEndModel {
             default:
                 break;
         }
-       
-       totalScore = difficultyValue/time;
-   }
+
+        totalScore = difficultyValue / time;
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String decimalString = decimalFormat.format(totalScore);
+        totalScore = Double.parseDouble(decimalString);
+    }
+
+    public void updateScore(double time, String username) {
+        database.updateUserScore(totalScore, time, username);
+    }
 }

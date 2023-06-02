@@ -15,7 +15,7 @@ public class GameEndMVC {
         GameEndModel model = new GameEndModel(username);
 
 //        model.addObserver(view);
-        GameEndController controller = new GameEndController( view, model);
+        GameEndController controller = new GameEndController( view, model, time, username);
         model.calculateScore(difficulty, time);
         controller.setScores();
 

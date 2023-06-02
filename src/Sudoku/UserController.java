@@ -13,9 +13,9 @@ import java.awt.event.ActionListener;
  */
 public class UserController implements ActionListener {
 
-    UserModel model;
-    UserView view;
-    SudokuGame sudokuGame;
+    private UserModel model;
+    private UserView view;
+    private SudokuGame sudokuGame;
     
     public UserController(SudokuGame sudokuGame) {
         this.sudokuGame = sudokuGame;

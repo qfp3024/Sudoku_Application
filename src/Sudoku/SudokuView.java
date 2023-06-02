@@ -5,6 +5,7 @@
 package Sudoku;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,24 +29,32 @@ import javax.swing.JTextField;
  */
 public class SudokuView implements Observer {
 
-    private JTextArea myJTextArea;
+    private JFrame frame = new JFrame();
+    private JPanel titlePanel = new JPanel();
+    private JPanel boardPanel = new JPanel(new GridBagLayout());
+    private JPanel containerPanel = new JPanel(new BorderLayout());
+    private JPanel optionsPanel = new JPanel();
     private JLabel usernameLabel = new JLabel("Username:");
     private JLabel Jusername;
-    JTextField[][] board = new JTextField[9][9];
-    private JPanel boardPanel = new JPanel(new GridBagLayout());
     private JLabel gameTitle = new JLabel("Sudoku");
     private JLabel difficultyLabel = new JLabel("Difficulty:");
-    JComboBox<String> difficulty = new JComboBox<>();
+    private JTextArea myJTextArea;
     private JButton endGameBtn = new JButton("End Game");
-    private JFrame frame = new JFrame();
     private GridBagConstraints grid = new GridBagConstraints();
+    JComboBox<String> difficulty = new JComboBox<>();
+    JTextField[][] board = new JTextField[9][9];
+    private Color bgColour = new Color(151, 192, 240);
 
     public SudokuView(int[][] userBoard, String username) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 400);
+        frame.setLocationRelativeTo(null);
         frame.setTitle("Sudoku Board");
         frame.setLayout(new BorderLayout());
 
         gameTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        titlePanel.add(gameTitle);
+        
         Jusername = new JLabel(username);
 
         difficulty.addItem("Beginner");
@@ -56,21 +65,22 @@ public class SudokuView implements Observer {
 
         addSudokuGrid(userBoard);
 
-        JPanel optionsPanel = new JPanel();
         optionsPanel.add(usernameLabel);
         optionsPanel.add(Jusername);
         optionsPanel.add(difficultyLabel);
         optionsPanel.add(difficulty);
 
-        JPanel containerPanel = new JPanel(new BorderLayout());
         containerPanel.add(boardPanel, BorderLayout.CENTER);
         containerPanel.add(optionsPanel, BorderLayout.NORTH);
 
-        frame.add(gameTitle, BorderLayout.NORTH);
+        titlePanel.setBackground(bgColour);
+        optionsPanel.setBackground(bgColour);
+        boardPanel.setBackground(bgColour);
+
+        frame.add(titlePanel, BorderLayout.NORTH);
         frame.add(containerPanel, BorderLayout.CENTER);
         frame.add(endGameBtn, BorderLayout.SOUTH);
 
-        frame.setSize(400, 400);
         frame.setVisible(true);
     }
 
@@ -85,6 +95,7 @@ public class SudokuView implements Observer {
                 board[row][column].setEditable(false);
                 board[row][column].setFont(new Font("Arial", Font.BOLD, 16));
                 board[row][column].setHorizontalAlignment(JTextField.CENTER);
+                board[row][column].setBackground(Color.WHITE);
 
                 grid.gridx = column;
                 grid.gridy = row;
@@ -147,7 +158,7 @@ public class SudokuView implements Observer {
     public void incorrectBoard() {
         JOptionPane.showMessageDialog(null, "There is at least one incorrect number", "Error", JOptionPane.ERROR_MESSAGE);
     }
-    
+
     public void closeWindow() {
         frame.dispose();
     }

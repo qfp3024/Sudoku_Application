@@ -33,8 +33,8 @@ public class SudokuDB {
         if (!tableExists("Users")) {
             try {
                 statement = conn.createStatement();
-                String sqlCreateTable = "CREATE TABLE USERS (USERID VARCHAR(20), USERNAME VARCHAR(20), PASSWORD VARCHAR(20), SCORE INT, TIME FLOAT)";
-                String sqlInsertData1 = "INSERT INTO USERS (USERID, USERNAME, PASSWORD, SCORE, TIME) VALUES ('1', 'Bob', 'password', 120, 3.45)";
+                String sqlCreateTable = "CREATE TABLE USERS (USERID VARCHAR(20), USERNAME VARCHAR(20), PASSWORD VARCHAR(20), SCORE DOUBLE, TIME DOUBLE)";
+                String sqlInsertData1 = "INSERT INTO USERS (USERID, USERNAME, PASSWORD, SCORE, TIME) VALUES ('1', 'Bob', 'password', 84.56, 3.45)";
 
                 statement.executeUpdate(sqlCreateTable);
                 statement.executeUpdate(sqlInsertData1);
@@ -97,8 +97,8 @@ public class SudokuDB {
         return userCheck;
     }
 
-    public int getUserScore(String username) {
-        int score = 0;
+    public double getUserScore(String username) {
+        double score = 0;
         try {
             if (conn != null) {
                 String query = "SELECT USERNAME, SCORE FROM USERS WHERE USERS.USERNAME = ?";
@@ -107,7 +107,7 @@ public class SudokuDB {
 
                 ResultSet rs = statement.executeQuery();
                 if (rs.next()) {
-                    score = rs.getInt("SCORE");
+                    score = rs.getDouble("SCORE");
                 }
             } else {
                 System.out.println("No database connection");
@@ -118,8 +118,27 @@ public class SudokuDB {
         return score;
     }
 
+    public void updateUserScore(double score, double time, String username) {
+        try {
+            if (conn != null) {
+                String query = "UPDATE USERS SET SCORE = ?, TIME = ? WHERE USERNAME = ?";
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setDouble(1, score);
+                statement.setDouble(2, time);
+                statement.setString(3, username);
 
-    public void updateUserScore() {
-
+                int rowsUpdated = statement.executeUpdate();
+                if (rowsUpdated > 0) {
+                    System.out.println("User score and time updated successfully.");
+                } else {
+                    System.out.println("User not found or no rows updated.");
+                }
+            } else {
+                System.out.println("No database connection");
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQL ERROR: " + ex.getMessage());
+        }
     }
+
 }
