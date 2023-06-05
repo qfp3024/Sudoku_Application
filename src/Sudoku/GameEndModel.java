@@ -28,7 +28,7 @@ public class GameEndModel {
         return totalScore;
     }
 
-    public void calculateScore(String difficulty, double time) {
+    public void calculateScore(String difficulty, double time, boolean helpUser) {
         double difficultyValue = 0.00;
         switch (difficulty) {
             case "Beginner":
@@ -55,6 +55,9 @@ public class GameEndModel {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         String decimalString = decimalFormat.format(totalScore);
         totalScore = Double.parseDouble(decimalString);
+        if(helpUser) {
+            totalScore /= 2;
+        }
     }
 
     public void updateScore(double time, String username) {

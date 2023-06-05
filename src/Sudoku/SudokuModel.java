@@ -4,8 +4,10 @@
  */
 package Sudoku;
 
+import java.awt.Color;
 import java.util.Observable;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 /**
  *
@@ -20,7 +22,6 @@ public class SudokuModel extends Observable {
     public SudokuModel(SudokuView view) {
         System.out.println("Model");
         this.view = view;
-        this.startTime = startTime;
     }
 
     public void checkCellContent(int row, int column) {
@@ -97,6 +98,7 @@ public class SudokuModel extends Observable {
                     board[row][column].setEditable(false);
                 }
                 board[row][column].setText(newNumber);
+                board[row][column].setForeground(Color.black);
             }
         }
         view.board = board;
@@ -128,6 +130,23 @@ public class SudokuModel extends Observable {
         return userBoard;
     }
 
+    public void showErrors(int row, int column, SudokuBoard sudokuBoard) {
+        JTextField[][] board = view.board;
+        String cellContent = board[row][column].getText();
+
+        int answerBoard[][] = sudokuBoard.getAnswerBoard();
+        int answer = answerBoard[row][column];
+        String answerString = Integer.toString(answer);
+
+        if (cellContent.equals(answerString)) {
+            view.board[row][column].setForeground(Color.black);
+        } else if (cellContent.equals("")) {
+            view.board[row][column].setForeground(Color.black);
+        } else {
+            view.board[row][column].setForeground(Color.red);
+        }
+    }
+
     public double convertToMinutes(double startTime) {
         double minutes = 0;
         double endTime = System.nanoTime();
@@ -145,5 +164,31 @@ public class SudokuModel extends Observable {
 
     public double getTotalTime() {
         return totalTime;
+    }
+
+    public boolean toggleBtnColour(JToggleButton toggleBtn, boolean helpUser) {
+        if (toggleBtn.isSelected()) {
+            toggleBtn.setText("ON");
+            helpUser = true;
+        } else {
+            toggleBtn.setText("OFF");
+            helpUser = false;
+        }
+
+        return helpUser;
+    }
+
+    public boolean changeBtn(JToggleButton toggleBtn, boolean helpUser) {
+        if (toggleBtn.isSelected()) {
+            toggleBtn.setText("ON");
+            toggleBtn.setBackground(Color.GREEN);
+            helpUser = true;
+        } else {
+            toggleBtn.setText("OFF");
+            toggleBtn.setBackground(Color.RED);
+            helpUser = false;
+        }
+        view.setToggleBtn(toggleBtn);
+        return helpUser;
     }
 }

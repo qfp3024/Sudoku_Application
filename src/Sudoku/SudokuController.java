@@ -4,10 +4,12 @@
  */
 package Sudoku;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.JToggleButton;
 
 /**
  *
@@ -20,6 +22,7 @@ public class SudokuController {
     private GameEndMVC gameEnd = new GameEndMVC();
     private int[][] userBoard;
     private SudokuBoard sudokuBoard;
+    private boolean helpUser = false;
     private String username;
 
     public SudokuController(SudokuModel model, SudokuView view, SudokuBoard sudokuBoard, String username) {
@@ -32,6 +35,26 @@ public class SudokuController {
         view.addButtonListener(new ButtonListener());
         view.addTextFieldFocusListener(new TextFieldFocusListener());
         view.addComboBoxListener(new ComboBoxListener());
+        view.addToggleListener(new ToggleListener());
+    }
+
+    class ToggleListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JToggleButton toggleBtn = view.getToggle();
+            helpUser = model.changeBtn(toggleBtn, helpUser);
+            for (int row = 0; row < 9; row++) {
+                for (int column = 0; column < 9; column++) {
+                    if (helpUser == true) {
+                        model.showErrors(row, column, sudokuBoard);
+                    }
+                    else {
+                        view.board[row][column].setForeground(Color.black);
+                    }
+                }
+            }
+        }
     }
 
     class ComboBoxListener implements ActionListener {
@@ -50,7 +73,7 @@ public class SudokuController {
             if (model.endGame(sudokuBoard)) {
                 view.closeWindow();
                 Object selectedDifficulty = view.difficulty.getSelectedItem();
-                gameEnd.GameEndMVC(username, selectedDifficulty.toString(), model.getTotalTime());
+                gameEnd.GameEndMVC(username, selectedDifficulty.toString(), model.getTotalTime(), helpUser);
             } else {
                 view.incorrectBoard();
             }
@@ -63,7 +86,11 @@ public class SudokuController {
         public void focusLost(FocusEvent e) {
             for (int row = 0; row < 9; row++) {
                 for (int column = 0; column < 9; column++) {
+                    view.board[row][column].setForeground(Color.black);
                     model.checkCellContent(row, column);
+                    if (helpUser == true) {
+                        model.showErrors(row, column, sudokuBoard);
+                    }
                 }
             }
         }

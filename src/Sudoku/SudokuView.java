@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 /**
  *
@@ -38,8 +39,10 @@ public class SudokuView implements Observer {
     private JLabel Jusername;
     private JLabel gameTitle = new JLabel("Sudoku");
     private JLabel difficultyLabel = new JLabel("Difficulty:");
+    private JLabel helpLabel = new JLabel("Show Errors:");
     private JTextArea myJTextArea;
     private JButton endGameBtn = new JButton("End Game");
+    private JToggleButton helpBtn = new JToggleButton("OFF");
     private GridBagConstraints grid = new GridBagConstraints();
     JComboBox<String> difficulty = new JComboBox<>();
     JTextField[][] board = new JTextField[9][9];
@@ -47,7 +50,7 @@ public class SudokuView implements Observer {
 
     public SudokuView(int[][] userBoard, String username) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(450, 400);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Sudoku Board");
         frame.setLayout(new BorderLayout());
@@ -64,11 +67,15 @@ public class SudokuView implements Observer {
         difficulty.addItem("Master");
 
         addSudokuGrid(userBoard);
+        
+        helpBtn.setBackground(Color.RED);
 
         optionsPanel.add(usernameLabel);
         optionsPanel.add(Jusername);
         optionsPanel.add(difficultyLabel);
         optionsPanel.add(difficulty);
+        optionsPanel.add(helpLabel);
+        optionsPanel.add(helpBtn);
 
         containerPanel.add(boardPanel, BorderLayout.CENTER);
         containerPanel.add(optionsPanel, BorderLayout.NORTH);
@@ -142,6 +149,10 @@ public class SudokuView implements Observer {
     public void addButtonListener(ActionListener listener) {
         endGameBtn.addActionListener(listener);
     }
+    
+    public void addToggleListener(ActionListener listener) {
+        helpBtn.addActionListener(listener);
+    }
 
     public void addTextFieldFocusListener(FocusAdapter listener) {
         for (int row = 0; row < 9; row++) {
@@ -149,6 +160,14 @@ public class SudokuView implements Observer {
                 board[row][column].addFocusListener(listener);
             }
         }
+    }
+    
+    public JToggleButton getToggle() {
+        return helpBtn;
+    }
+    
+    public void setToggleBtn(JToggleButton toggleBtn) {
+        this.helpBtn = toggleBtn;
     }
 
     @Override
