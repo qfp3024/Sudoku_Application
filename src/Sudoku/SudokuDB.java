@@ -35,9 +35,11 @@ public class SudokuDB {
                 statement = conn.createStatement();
                 String sqlCreateTable = "CREATE TABLE USERS (USERNAME VARCHAR(20), PASSWORD VARCHAR(20), SCORE DOUBLE)";
                 String sqlInsertData1 = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES ('Bob', 'password', 84.56)";
+                String sqlInsertData2 = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES ('User', 'test', 44.58)";
 
                 statement.executeUpdate(sqlCreateTable);
                 statement.executeUpdate(sqlInsertData1);
+                statement.executeUpdate(sqlInsertData2);
             } catch (SQLException ex) {
                 System.err.println("SQLException: " + ex.getMessage());
             }
@@ -70,23 +72,15 @@ public class SudokuDB {
                 while (rs.next()) {
                     String pass = rs.getString("password");
                     String user = rs.getString("username");
-                    System.out.println("***" + pass);
-                    System.out.println("found user: " + user);
+
                     if (username.compareTo(user) == 0) {
                         newUser = false;
                         userCheck = password.compareTo(pass) == 0;
                     }
                 }
                 if (newUser) {
-                    System.out.println("no such user");
-                    String insertQuery = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES (?, ?, ?)";
-                    PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
-                    insertStatement.setString(1, username);
-                    insertStatement.setString(2, password);
-                    insertStatement.setDouble(3, 0.00);
-                    insertStatement.executeUpdate();
-
-                    userCheck = true;
+                    addUser(username, password);
+                    userCheck = false;
                 }
             } else {
                 System.out.println("No database connection");
@@ -95,6 +89,19 @@ public class SudokuDB {
             System.out.println("SQL ERROR: " + ex.getMessage());
         }
         return userCheck;
+    }
+
+    public void addUser(String username, String password) {
+        try {
+            String insertQuery = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES (?, ?, ?)";
+            PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+            insertStatement.setString(1, username);
+            insertStatement.setString(2, password);
+            insertStatement.setDouble(3, 0.00);
+            insertStatement.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("SQL ERROR: " + ex.getMessage());
+        }
     }
 
     public double getUserScore(String username) {
@@ -126,17 +133,26 @@ public class SudokuDB {
                 statement.setDouble(1, score);
                 statement.setString(2, username);
 
-                int rowsUpdated = statement.executeUpdate();
-                if (rowsUpdated > 0) {
-                    System.out.println("User score updated successfully.");
-                } else {
-                    System.out.println("User not found or no rows updated.");
-                }
+                statement.executeUpdate();
             } else {
                 System.out.println("No database connection");
             }
         } catch (SQLException ex) {
             System.out.println("SQL ERROR: " + ex.getMessage());
+        }
+    }
+
+    public void deleteUser(String username) {
+        try {
+            statement = conn.createStatement();
+
+            String sqlDelete = "DELETE FROM USERS WHERE USERNAME = ?";
+            PreparedStatement statement = conn.prepareStatement(sqlDelete);
+            statement.setString(1, username);
+            
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println("SQLException: " + ex.getMessage());
         }
     }
 

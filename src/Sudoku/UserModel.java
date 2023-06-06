@@ -41,4 +41,5 @@ public class UserModel extends Observable {
     public boolean getValidUsername(String username) {
         return username.matches("^[a-zA-Z0-9]+$");
     }
+    
 }

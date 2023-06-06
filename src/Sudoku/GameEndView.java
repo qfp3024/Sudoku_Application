@@ -145,19 +145,19 @@ public class GameEndView {
     public void addNoButtonListener(ActionListener listener) {
         noBtn.addActionListener(listener);
     }
-    
+
     public boolean isReplay() {
         int replay = JOptionPane.showConfirmDialog(null, "Thank you for playing, would you like to play again?", "Replay", JOptionPane.YES_NO_OPTION);
-        switch (replay) {
-            case JOptionPane.YES_OPTION:
-                return true;
-            case JOptionPane.NO_OPTION:
-                return false;
-            default:
-                return false;
+        if (replay == JOptionPane.YES_OPTION) {
+            return true;
+        } else if (replay == JOptionPane.NO_OPTION) {
+            return false;
+        } else {
+            return false;
         }
+
     }
-    
+
     public void closeWindow() {
         frame.dispose();
     }

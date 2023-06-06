@@ -42,10 +42,7 @@ public class SudokuGame {
 
         model.addObserver(view);
 
-        UserController controller = new UserController(this);
-        controller.addModel(model);
-        controller.addView(view);
-        view.addController(controller);
+        UserController controller = new UserController(this, view, model);
     }
 
     public void sudokuMVC(String username) {
@@ -55,8 +52,6 @@ public class SudokuGame {
         model.addObserver(view);
 
         SudokuController controller = new SudokuController(model, view, sudokuBoard, username);
-        controller.addModel(model);
-        controller.addView(view);
     }
     
     public void setUsername(String username) {

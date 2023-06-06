@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
@@ -29,24 +30,21 @@ public class UserView implements Observer {
     //Login Variables
     private JTextArea myJTextArea;
     private JPanel userPanel = new JPanel(new GridBagLayout());
-    GridBagConstraints grid = new GridBagConstraints();
-
+    private GridBagConstraints grid = new GridBagConstraints();
     private JLabel userIntroTitle = new JLabel("Welcome to Sudoku");
-    private JLabel userIntro = new JLabel("Enter a username and password to login or sign up");
+    private JLabel userIntro = new JLabel("Enter a username and password to login, sign up, or delete");
     private JLabel username = new JLabel("Username:");
     private JLabel password = new JLabel("Password:");
     public JTextField unInput = new JTextField(10);
     public JPasswordField pwInput = new JPasswordField(10);
-    private JLabel nameError = new JLabel("Incorrect username or password!");
     private JButton loginButton = new JButton("Login");
-    private JFrame frame = new JFrame("User GUI");
-
-    private UserController userController;
+    private JButton deleteUserButton = new JButton("Delete User");
+    private JFrame frame = new JFrame("User Login");
 
     //Sudoku Game Variables
     public UserView() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 250);
+        frame.setSize(400, 280);
         frame.setLocationRelativeTo(null);
 
         grid.gridx = 0;
@@ -62,26 +60,32 @@ public class UserView implements Observer {
         this.userPanel.add(userIntro, grid);
 
         grid.gridx = 0;
-        grid.gridy = 2;
+        grid.gridy = 3;
         grid.gridwidth = 2;
         this.userPanel.add(username, grid);
         grid.gridx = 2;
-        grid.gridy = 2;
+        grid.gridy = 3;
         this.userPanel.add(unInput, grid);
 
         grid.gridx = 0;
-        grid.gridy = 3;
+        grid.gridy = 4;
         this.userPanel.add(password, grid);
         grid.gridx = 2;
-        grid.gridy = 3;
+        grid.gridy = 4;
         this.userPanel.add(pwInput, grid);
 
         grid.gridx = 0;
-        grid.gridy = 4;
+        grid.gridy = 5;
         grid.gridwidth = 4;
         grid.insets = new Insets(10, 0, 0, 0);
         grid.fill = GridBagConstraints.HORIZONTAL;
         this.userPanel.add(loginButton, grid);
+        grid.gridx = 0;
+        grid.gridy = 6;
+        grid.gridwidth = 4;
+        grid.insets = new Insets(10, 0, 0, 0);
+        grid.fill = GridBagConstraints.HORIZONTAL;
+        this.userPanel.add(deleteUserButton, grid);
 
         userPanel.setBackground(new Color(151, 192, 240));
         frame.add(userPanel);
@@ -96,10 +100,24 @@ public class UserView implements Observer {
     public void unError() {
         JOptionPane.showMessageDialog(null, "Please enter a valid username\nUsernames can only contain letters and numbers ", "Error", JOptionPane.ERROR_MESSAGE);
     }
-    
-    public void addController(UserController controller) {
-        this.userController = controller;
-        loginButton.addActionListener(controller);
+
+    public boolean checkDelete() {
+        int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this user?", "Are you sure?", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            return true;
+        } else if (result == JOptionPane.NO_OPTION) {
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    public void addLoginController(ActionListener listener) {
+        loginButton.addActionListener(listener);
+    }
+
+    public void addDeleteController(ActionListener listener) {
+        deleteUserButton.addActionListener(listener);
     }
 
     public String getunInput() {

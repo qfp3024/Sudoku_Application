@@ -128,12 +128,4 @@ public class SudokuController {
             }
         }
     }
-
-    public void addModel(SudokuModel m) {
-        this.model = m;
-    }
-
-    public void addView(SudokuView v) {
-        this.view = v;
-    }
 }
