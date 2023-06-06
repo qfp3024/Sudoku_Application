@@ -191,4 +191,10 @@ public class SudokuModel extends Observable {
         view.setToggleBtn(toggleBtn);
         return helpUser;
     }
+    
+    public void restartBoard(int row, int column) {
+        if (view.board[row][column].isEditable() == true) {
+           view.board[row][column].setText("");
+        }
+    }
 }

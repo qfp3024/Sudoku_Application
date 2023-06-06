@@ -33,8 +33,8 @@ public class UserView implements Observer {
 
     private JLabel userIntroTitle = new JLabel("Welcome to Sudoku");
     private JLabel userIntro = new JLabel("Enter a username and password to login or sign up");
-    private JLabel username = new JLabel("Username");
-    private JLabel password = new JLabel("Password");
+    private JLabel username = new JLabel("Username:");
+    private JLabel password = new JLabel("Password:");
     public JTextField unInput = new JTextField(10);
     public JPasswordField pwInput = new JPasswordField(10);
     private JLabel nameError = new JLabel("Incorrect username or password!");

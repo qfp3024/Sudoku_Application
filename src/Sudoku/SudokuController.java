@@ -36,6 +36,9 @@ public class SudokuController {
         view.addTextFieldFocusListener(new TextFieldFocusListener());
         view.addComboBoxListener(new ComboBoxListener());
         view.addToggleListener(new ToggleListener());
+        view.addLogoutBtnListener(new LogoutButtonListener());
+        view.addHowToBtnListener(new HowToButtonListener());
+        view.addRestartBtnListener(new RestartButtonListener());
     }
 
     class ToggleListener implements ActionListener {
@@ -48,8 +51,7 @@ public class SudokuController {
                 for (int column = 0; column < 9; column++) {
                     if (helpUser == true) {
                         model.showErrors(row, column, sudokuBoard);
-                    }
-                    else {
+                    } else {
                         view.board[row][column].setForeground(Color.black);
                     }
                 }
@@ -80,6 +82,17 @@ public class SudokuController {
         }
     }
 
+    class LogoutButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            SudokuGame sudokuGame = new SudokuGame();
+            sudokuGame.setUsername(null);
+            sudokuGame.initialiseGame();
+            view.closeWindow();
+        }
+    }
+
     class TextFieldFocusListener extends FocusAdapter {
 
         @Override
@@ -91,6 +104,26 @@ public class SudokuController {
                     if (helpUser == true) {
                         model.showErrors(row, column, sudokuBoard);
                     }
+                }
+            }
+        }
+    }
+
+    class HowToButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.showHowTo();
+        }
+    }
+
+    class RestartButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (int row = 0; row < 9; row++) {
+                for (int column = 0; column < 9; column++) {
+                    model.restartBoard(row, column);
                 }
             }
         }

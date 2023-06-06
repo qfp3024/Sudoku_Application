@@ -6,6 +6,7 @@ package Sudoku;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,6 +32,7 @@ import javax.swing.JToggleButton;
 public class SudokuView implements Observer {
 
     private JFrame frame = new JFrame();
+    private JPanel btnPanel = new JPanel();
     private JPanel titlePanel = new JPanel();
     private JPanel boardPanel = new JPanel(new GridBagLayout());
     private JPanel containerPanel = new JPanel(new BorderLayout());
@@ -42,8 +44,12 @@ public class SudokuView implements Observer {
     private JLabel helpLabel = new JLabel("Show Errors:");
     private JTextArea myJTextArea;
     private JButton endGameBtn = new JButton("End Game");
+    private JButton logoutBtn = new JButton("Logout");
+    private JButton restartBtn = new JButton("Restart");
+    private JButton howToBtn = new JButton("How to Play");
     private JToggleButton helpBtn = new JToggleButton("OFF");
     private GridBagConstraints grid = new GridBagConstraints();
+    private GridBagConstraints title = new GridBagConstraints();
     JComboBox<String> difficulty = new JComboBox<>();
     JTextField[][] board = new JTextField[9][9];
     private Color bgColour = new Color(151, 192, 240);
@@ -56,7 +62,7 @@ public class SudokuView implements Observer {
         frame.setLayout(new BorderLayout());
 
         gameTitle.setFont(new Font("Arial", Font.BOLD, 24));
-        titlePanel.add(gameTitle);
+        titlePanel.add(gameTitle );
 
         Jusername = new JLabel(username);
 
@@ -67,7 +73,7 @@ public class SudokuView implements Observer {
         difficulty.addItem("Master");
 
         addSudokuGrid(userBoard);
-        
+
         helpBtn.setBackground(Color.RED);
 
         optionsPanel.add(usernameLabel);
@@ -80,13 +86,19 @@ public class SudokuView implements Observer {
         containerPanel.add(boardPanel, BorderLayout.CENTER);
         containerPanel.add(optionsPanel, BorderLayout.NORTH);
 
+        btnPanel.add(logoutBtn);
+        btnPanel.add(howToBtn);
+        btnPanel.add(restartBtn);
+        btnPanel.add(endGameBtn);
+        
+        btnPanel.setBackground(bgColour);
         titlePanel.setBackground(bgColour);
         optionsPanel.setBackground(bgColour);
         boardPanel.setBackground(bgColour);
 
         frame.add(titlePanel, BorderLayout.NORTH);
         frame.add(containerPanel, BorderLayout.CENTER);
-        frame.add(endGameBtn, BorderLayout.SOUTH);
+        frame.add(btnPanel, BorderLayout.SOUTH);
 
         frame.setVisible(true);
     }
@@ -103,7 +115,7 @@ public class SudokuView implements Observer {
                 } else {
                     board[row][column].setEditable(false);
                 }
-                
+
                 board[row][column].setText(cellNumber);
                 board[row][column].setFont(new Font("Arial", Font.BOLD, 16));
                 board[row][column].setHorizontalAlignment(JTextField.CENTER);
@@ -149,9 +161,13 @@ public class SudokuView implements Observer {
     public void addButtonListener(ActionListener listener) {
         endGameBtn.addActionListener(listener);
     }
-    
+
     public void addToggleListener(ActionListener listener) {
         helpBtn.addActionListener(listener);
+    }
+
+    public void addLogoutBtnListener(ActionListener listener) {
+        logoutBtn.addActionListener(listener);
     }
 
     public void addTextFieldFocusListener(FocusAdapter listener) {
@@ -162,10 +178,18 @@ public class SudokuView implements Observer {
         }
     }
     
+    public void addHowToBtnListener(ActionListener listener) {
+        howToBtn.addActionListener(listener);
+    }
+    
+    public void addRestartBtnListener(ActionListener listener) {
+        restartBtn.addActionListener(listener);
+    }
+
     public JToggleButton getToggle() {
         return helpBtn;
     }
-    
+
     public void setToggleBtn(JToggleButton toggleBtn) {
         this.helpBtn = toggleBtn;
     }
@@ -181,6 +205,15 @@ public class SudokuView implements Observer {
 
     public void incorrectBoard() {
         JOptionPane.showMessageDialog(null, "There is at least one incorrect number", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void showHowTo() {
+        String message = "Complete the board by filling in the blanks with the missing numbers."
+                       + "\nEach box of 9x9 should have all numbers from 1-9 to be completed."
+                + "\nHowever, there should only be one of each number in every row, column, and box"
+                + "\nYour score decreases the longer you take, but is higher depending on the difficulty."
+                + "\nShowing errors will half your total score. Have Fun!";
+        JOptionPane.showMessageDialog(null,message, "How to Play", JOptionPane.PLAIN_MESSAGE );
     }
 
     public void closeWindow() {
