@@ -6,6 +6,7 @@ package Sudoku;
 
 import java.awt.Color;
 import java.util.Observable;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
@@ -18,15 +19,19 @@ public class SudokuModel extends Observable {
     SudokuView view;
     private long startTime = System.nanoTime();
     private double totalTime = 0.00;
+    private JTextField[][] board;
+    private JComboBox<String> difficulty;
 
     public SudokuModel(SudokuView view) {
         System.out.println("Model");
         this.view = view;
+        this.board = view.getBoard();
+        this.difficulty = view.getDifficulty();
     }
 
     public void checkCellContent(int row, int column) {
-        JTextField[][] board = view.board;
-        String cellContent = board[row][column].getText();
+        JTextField[][] userBoard = board;
+        String cellContent = userBoard[row][column].getText();
 
         if (!cellContent.equals("")) {
             if (cellContent.length() >= 2) {
@@ -36,13 +41,15 @@ public class SudokuModel extends Observable {
 
             if (!checkIntInput(cellContent)) {
                 cellContent = "";
-                board[row][column].setText(cellContent);
-                view.board[row][column] = board[row][column];
+                userBoard[row][column].setText(cellContent);
+                board[row][column] = userBoard[row][column];
+                view.setBoard(board);
                 view.InputError();
             }
         }
-        board[row][column].setText(cellContent);
-        view.board[row][column] = board[row][column];
+        userBoard[row][column].setText(cellContent);
+        board[row][column] = userBoard[row][column];
+        view.setBoard(board);
     }
 
     public boolean checkIntInput(String cellContent) {
@@ -50,9 +57,9 @@ public class SudokuModel extends Observable {
     }
 
     public void setDifficulty(SudokuBoard sudokuBoard) {
-        int difficulty = 0;
-        difficulty = getDifficulty(difficulty);
-        updateBoard(difficulty, sudokuBoard);
+        int difficultyNum = 0;
+        difficultyNum = getDifficulty(difficultyNum);
+        updateBoard(difficultyNum, sudokuBoard);
     }
 
     public void updateBoard(int difficulty, SudokuBoard sudokuBoard) {
@@ -61,47 +68,48 @@ public class SudokuModel extends Observable {
         setSudokuBoard(sudokuBoard.getUserBoard());
     }
 
-    public int getDifficulty(int difficulty) {
-        Object selectedDifficulty = view.difficulty.getSelectedItem();
+    public int getDifficulty(int difficultyNum) {
+        Object selectedDifficulty = difficulty.getSelectedItem();
         switch (selectedDifficulty.toString()) {
             case "Beginner":
-                difficulty = 2;
+                difficultyNum = 2;
                 break;
             case "Amateur":
-                difficulty = 3;
+                difficultyNum = 3;
                 break;
             case "Intermediate":
-                difficulty = 4;
+                difficultyNum = 4;
                 break;
             case "Expert":
-                difficulty = 5;
+                difficultyNum = 5;
                 break;
             case "Master":
-                difficulty = 6;
+                difficultyNum = 6;
                 break;
             default:
                 break;
         }
-        return difficulty;
+        return difficultyNum;
     }
 
     public void setSudokuBoard(int[][] userBoard) {
-        JTextField[][] board = view.board;
+        JTextField[][] boardUser = board;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
                 String newNumber = Integer.toString(userBoard[row][column]);
 
                 if (newNumber.equals("0")) {
-                    board[row][column].setEditable(true);
+                    boardUser[row][column].setEditable(true);
                     newNumber = "";
                 } else {
-                    board[row][column].setEditable(false);
+                    boardUser[row][column].setEditable(false);
                 }
-                board[row][column].setText(newNumber);
-                board[row][column].setForeground(Color.black);
+                boardUser[row][column].setText(newNumber);
+                boardUser[row][column].setForeground(Color.black);
             }
         }
-        view.board = board;
+        board = boardUser;
+        view.setBoard(board);
     }
 
     public boolean endGame(SudokuBoard sudokuBoard) {
@@ -119,10 +127,10 @@ public class SudokuModel extends Observable {
         int viewNumber = 0;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                if (view.board[row][column].getText().equals("")) {
+                if (board[row][column].getText().equals("")) {
                     viewNumber = 0;
                 } else {
-                    viewNumber = Integer.parseInt(view.board[row][column].getText());
+                    viewNumber = Integer.parseInt(board[row][column].getText());
                 }
                 userBoard[row][column] = viewNumber;
             }
@@ -131,20 +139,21 @@ public class SudokuModel extends Observable {
     }
 
     public void showErrors(int row, int column, SudokuBoard sudokuBoard) {
-        JTextField[][] board = view.board;
-        String cellContent = board[row][column].getText();
+        JTextField[][] boardUser = board;
+        String cellContent = boardUser[row][column].getText();
 
         int answerBoard[][] = sudokuBoard.getAnswerBoard();
         int answer = answerBoard[row][column];
         String answerString = Integer.toString(answer);
 
         if (cellContent.equals(answerString)) {
-            view.board[row][column].setForeground(Color.black);
+            board[row][column].setForeground(Color.black);
         } else if (cellContent.equals("")) {
-            view.board[row][column].setForeground(Color.black);
+            board[row][column].setForeground(Color.black);
         } else {
-            view.board[row][column].setForeground(Color.red);
+            board[row][column].setForeground(Color.red);
         }
+        view.setBoard(board);
     }
 
     public double convertToMinutes(double startTime) {
@@ -191,10 +200,11 @@ public class SudokuModel extends Observable {
         view.setToggleBtn(toggleBtn);
         return helpUser;
     }
-    
+
     public void restartBoard(int row, int column) {
-        if (view.board[row][column].isEditable() == true) {
-           view.board[row][column].setText("");
+        if (board[row][column].isEditable() == true) {
+            board[row][column].setText("");
+            view.setBoard(board);
         }
     }
 }

@@ -6,7 +6,6 @@ package Sudoku;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -50,8 +49,8 @@ public class SudokuView implements Observer {
     private JToggleButton helpBtn = new JToggleButton("OFF");
     private GridBagConstraints grid = new GridBagConstraints();
     private GridBagConstraints title = new GridBagConstraints();
-    JComboBox<String> difficulty = new JComboBox<>();
-    JTextField[][] board = new JTextField[9][9];
+    private JComboBox<String> difficulty = new JComboBox<>();
+    private JTextField[][] board = new JTextField[9][9];
     private Color bgColour = new Color(151, 192, 240);
 
     public SudokuView(int[][] userBoard, String username) {
@@ -218,5 +217,17 @@ public class SudokuView implements Observer {
 
     public void closeWindow() {
         frame.dispose();
+    }
+    
+    public JTextField[][] getBoard() {
+        return board;
+    }
+    
+    public void setBoard(JTextField[][] board) {
+        this.board = board;
+    }
+    
+    public JComboBox<String> getDifficulty() {
+        return difficulty;
     }
 }

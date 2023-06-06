@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 /**
@@ -24,6 +26,8 @@ public class SudokuController {
     private SudokuBoard sudokuBoard;
     private boolean helpUser = false;
     private String username;
+    private JTextField[][] board;
+    private JComboBox<String> difficulty ;
 
     public SudokuController(SudokuModel model, SudokuView view, SudokuBoard sudokuBoard, String username) {
         this.model = model;
@@ -31,6 +35,8 @@ public class SudokuController {
         this.sudokuBoard = sudokuBoard;
         this.userBoard = sudokuBoard.userBoard;
         this.username = username;
+        this.board = view.getBoard();
+        this.difficulty = view.getDifficulty();
 
         view.addButtonListener(new ButtonListener());
         view.addTextFieldFocusListener(new TextFieldFocusListener());
@@ -52,7 +58,8 @@ public class SudokuController {
                     if (helpUser == true) {
                         model.showErrors(row, column, sudokuBoard);
                     } else {
-                        view.board[row][column].setForeground(Color.black);
+                        board[row][column].setForeground(Color.black);
+                        view.setBoard(board);
                     }
                 }
             }
@@ -74,7 +81,7 @@ public class SudokuController {
         public void actionPerformed(ActionEvent e) {
             if (model.endGame(sudokuBoard)) {
                 view.closeWindow();
-                Object selectedDifficulty = view.difficulty.getSelectedItem();
+                Object selectedDifficulty = difficulty.getSelectedItem();
                 gameEnd.GameEndMVC(username, selectedDifficulty.toString(), model.getTotalTime(), helpUser);
             } else {
                 view.incorrectBoard();
@@ -99,7 +106,8 @@ public class SudokuController {
         public void focusLost(FocusEvent e) {
             for (int row = 0; row < 9; row++) {
                 for (int column = 0; column < 9; column++) {
-                    view.board[row][column].setForeground(Color.black);
+                    board[row][column].setForeground(Color.black);
+                    view.setBoard(board);
                     model.checkCellContent(row, column);
                     if (helpUser == true) {
                         model.showErrors(row, column, sudokuBoard);
