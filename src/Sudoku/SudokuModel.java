@@ -57,8 +57,7 @@ public class SudokuModel extends Observable {
     }
 
     public void setDifficulty(SudokuBoard sudokuBoard) {
-        int difficultyNum = 0;
-        difficultyNum = getDifficulty(difficultyNum);
+        int difficultyNum = getDifficulty();
         updateBoard(difficultyNum, sudokuBoard);
     }
 
@@ -68,27 +67,23 @@ public class SudokuModel extends Observable {
         setSudokuBoard(sudokuBoard.getUserBoard());
     }
 
-    public int getDifficulty(int difficultyNum) {
+    public int getDifficulty() {
+        int difficultyNum = 0;
         Object selectedDifficulty = difficulty.getSelectedItem();
-        switch (selectedDifficulty.toString()) {
-            case "Beginner":
-                difficultyNum = 2;
-                break;
-            case "Amateur":
-                difficultyNum = 3;
-                break;
-            case "Intermediate":
-                difficultyNum = 4;
-                break;
-            case "Expert":
-                difficultyNum = 5;
-                break;
-            case "Master":
-                difficultyNum = 6;
-                break;
-            default:
-                break;
+        String difficultyString = selectedDifficulty.toString();
+        
+        if (difficultyString.equals("Beginner")) {
+            difficultyNum = 2;
+        } else if (difficultyString.equals("Amateur")) {
+            difficultyNum = 3;
+        } else if (difficultyString.equals("Intermediate")) {
+            difficultyNum = 4;
+        } else if (difficultyString.equals("Expert")) {
+            difficultyNum = 5;
+        } else if (difficultyString.equals("Master")) {
+            difficultyNum = 6;
         }
+
         return difficultyNum;
     }
 

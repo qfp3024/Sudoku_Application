@@ -30,6 +30,22 @@ public class GameEndModel {
 
     public void calculateScore(String difficulty, double time, boolean helpUser) {
         double difficultyValue = 0.00;
+        difficultyValue = getDifficultyValue(difficultyValue, difficulty);
+        totalScore = difficultyValue / time;
+        totalScore *= 100;
+        shortenDecimal();
+        if (helpUser) {
+            totalScore /= 2;
+        }
+    }
+
+    public void shortenDecimal() {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String decimalString = decimalFormat.format(totalScore);
+        totalScore = Double.parseDouble(decimalString);
+    }
+
+    public double getDifficultyValue(double difficultyValue, String difficulty) {
         if (difficulty.equals("Beginner")) {
             difficultyValue = 1.00;
         } else if (difficulty.equals("Amateur")) {
@@ -41,14 +57,7 @@ public class GameEndModel {
         } else if (difficulty.equals("Master")) {
             difficultyValue = 5.00;
         }
-        totalScore = difficultyValue / time;
-        totalScore *= 100;
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        String decimalString = decimalFormat.format(totalScore);
-        totalScore = Double.parseDouble(decimalString);
-        if (helpUser) {
-            totalScore /= 2;
-        }
+        return difficultyValue;
     }
 
     public void updateScore(double time, String username) {
