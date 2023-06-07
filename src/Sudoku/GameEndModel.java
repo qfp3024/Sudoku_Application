@@ -30,32 +30,23 @@ public class GameEndModel {
 
     public void calculateScore(String difficulty, double time, boolean helpUser) {
         double difficultyValue = 0.00;
-        switch (difficulty) {
-            case "Beginner":
-                difficultyValue = 1.00;
-                break;
-            case "Amateur":
-                difficultyValue = 2.00;
-                break;
-            case "Intermediate":
-                difficultyValue = 3.00;
-                break;
-            case "Expert":
-                difficultyValue = 4.00;
-                break;
-            case "Master":
-                difficultyValue = 5.00;
-                break;
-            default:
-                break;
+        if (difficulty.equals("Beginner")) {
+            difficultyValue = 1.00;
+        } else if (difficulty.equals("Amateur")) {
+            difficultyValue = 2.00;
+        } else if (difficulty.equals("Intermediate")) {
+            difficultyValue = 3.00;
+        } else if (difficulty.equals("Expert")) {
+            difficultyValue = 4.00;
+        } else if (difficulty.equals("Master")) {
+            difficultyValue = 5.00;
         }
-
         totalScore = difficultyValue / time;
         totalScore *= 100;
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         String decimalString = decimalFormat.format(totalScore);
         totalScore = Double.parseDouble(decimalString);
-        if(helpUser) {
+        if (helpUser) {
             totalScore /= 2;
         }
     }
