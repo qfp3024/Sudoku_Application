@@ -10,6 +10,7 @@ package Sudoku;
  */
 public class GameEndMVC {
 
+    //The Model View Controller method to set up the MVC classes for the GameEnd GUI
     public void GameEndMVC(String username, String difficulty, double time, boolean helpUser) {
         GameEndView view = new GameEndView();
         GameEndModel model = new GameEndModel(username);

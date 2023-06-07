@@ -29,15 +29,15 @@ public class DBManager {
         System.out.println(dbManager.getConnection());
     }
 
+    //Returns the conn Connection variable
     public Connection getConnection() {
         return this.conn;
     }
 
-    //Establish connection
+    //Establishes connection to the database using the supplied URL, username, and password
     public void establishConnection() {
         if (this.conn == null) {
-            try {
-                //Establish a connection to Database                
+            try {              
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
                 System.out.println(URL + " connected...");
             } catch (SQLException ex) {
@@ -46,6 +46,7 @@ public class DBManager {
         }
     }
 
+    //Closes the connecttion to the database
     public void closeConnections() {
         if (conn != null) {
             try {

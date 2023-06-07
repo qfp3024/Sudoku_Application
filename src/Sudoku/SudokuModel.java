@@ -21,12 +21,14 @@ public class SudokuModel extends Observable {
     private double totalTime = 0.00;
     private JTextField[][] board;
     private JComboBox<String> difficulty;
+    private CheckBoards checkBoard;
 
     public SudokuModel(SudokuView view) {
         System.out.println("Model");
         this.view = view;
         this.board = view.getBoard();
         this.difficulty = view.getDifficulty();
+        this.checkBoard = new CheckBoards();
     }
 
     public void checkCellContent(int row, int column) {
@@ -71,7 +73,7 @@ public class SudokuModel extends Observable {
         int difficultyNum = 0;
         Object selectedDifficulty = difficulty.getSelectedItem();
         String difficultyString = selectedDifficulty.toString();
-        
+
         if (difficultyString.equals("Beginner")) {
             difficultyNum = 2;
         } else if (difficultyString.equals("Amateur")) {
@@ -109,7 +111,10 @@ public class SudokuModel extends Observable {
 
     public boolean endGame(SudokuBoard sudokuBoard) {
         mergeBoards(sudokuBoard.userBoard);
-        CheckBoards checkBoard = new CheckBoards();
+        return checkBoardCorrect(sudokuBoard);
+    }
+
+    public boolean checkBoardCorrect(SudokuBoard sudokuBoard) {
         if (checkBoard.checkBoardCorrect(sudokuBoard.userBoard, sudokuBoard.answerBoard)) {
             totalTime = convertToMinutes(startTime);
             return true;

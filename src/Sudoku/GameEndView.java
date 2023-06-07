@@ -30,24 +30,23 @@ public class GameEndView {
     private JPanel containerPanel = new JPanel(new GridBagLayout());
     private JPanel updatePanel = new JPanel(new BorderLayout());
     private JPanel btnPanel = new JPanel(new GridBagLayout());
-    private GridBagConstraints grid = new GridBagConstraints();
-    private GridBagConstraints btnGrid = new GridBagConstraints();
-
     private JLabel congrats = new JLabel("Congratulations!");
     private JLabel completion = new JLabel("You successfully completed the game!");
-
     private JLabel newScoreLabel = new JLabel("You got a new score of: ");
     private JLabel newScore = new JLabel();
-
     private JLabel oldScoreLabel = new JLabel("You had an old score of: ");
     private JLabel oldScore = new JLabel();
-
     private JLabel askUpdate = new JLabel("Would you like to to update your score?");
     private JButton yesBtn = new JButton("Yes");
     private JButton noBtn = new JButton("No");
-
+    private GridBagConstraints grid = new GridBagConstraints();
+    private GridBagConstraints btnGrid = new GridBagConstraints();
     private Color bgColour = new Color(151, 192, 240);
 
+    //Sets the frame's closing settings, size, sarting location on the screen, title, and backgroundColour
+    //Adds Jcomponents to panels with necessary layout options set
+    //Sets background Colour of each panel
+    //Adds panels to the frame, the sets the frame to be visible
     public GameEndView() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
@@ -110,6 +109,7 @@ public class GameEndView {
         frame.setVisible(true);
     }
 
+    //Sets the font and font size of each component in the supplied Jpanel
     public void setJPanelFont(int fontSize, JPanel panel) {
         for (Component component : panel.getComponents()) {
             if (component instanceof JLabel) {
@@ -120,11 +120,14 @@ public class GameEndView {
         }
     }
 
+    //Sets the displayed text of the oldScore JLabel if the score is more than 0
+    //If not, removes the containerPanel from the frame, removes the oldScore and Label
+    //This is done because the user must be new and thus have no old score to display
+    //The update containerPanel is added back to the frame
     public void setOldScore(double score) {
         if (score > 0) {
             this.oldScore.setText(Double.toString(score));
         } else {
-
             this.frame.remove(containerPanel);
             containerPanel.remove(oldScoreLabel);
             containerPanel.remove(oldScore);
@@ -132,20 +135,26 @@ public class GameEndView {
         }
     }
 
+    //Changes the score into a string, then sets the displayed text of the newScore JLabel
     public void setNewScore(double score) {
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        String scoreString = decimalFormat.format(score);
+        String scoreString = Double.toString(score);
         this.newScore.setText(scoreString);
     }
 
+    //Adds an actionListener to yesBtn
     public void addYesButtonListener(ActionListener listener) {
         yesBtn.addActionListener(listener);
     }
 
+    //Adds an actionListener to noBtn
     public void addNoButtonListener(ActionListener listener) {
         noBtn.addActionListener(listener);
     }
 
+    //Triggers a dialog box to appear asking the user to play again
+    //If yes is selected, return true
+    //If no is selected, return false
+    //If closed, return false by default
     public boolean isReplay() {
         int replay = JOptionPane.showConfirmDialog(null, "Thank you for playing, would you like to play again?", "Replay", JOptionPane.YES_NO_OPTION);
         if (replay == JOptionPane.YES_OPTION) {
@@ -158,6 +167,7 @@ public class GameEndView {
 
     }
 
+    //Closes the view GUI window
     public void closeWindow() {
         frame.dispose();
     }
