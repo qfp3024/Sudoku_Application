@@ -22,8 +22,11 @@ public class SudokuGame {
         sudokuDB = new SudokuDB();
     }
 
-    //Runs initialiseUser to set the current user
-    //Sets up the board by running initialiseBoard
+    //Runs connectSudokuDB method in "sudokuDB" to connect the database
+    //Sets default difficulty to 2 (Beginner)
+    //Clears and initialises (Create and/or fills) the user and answerBaords
+    //If username is not set, runs userMVC
+    //If username is set runs sudokuMVC with username parameter
     public void initialiseGame() {
         sudokuDB.connectSudokuDB();
         int difficulty = 2;
@@ -36,6 +39,7 @@ public class SudokuGame {
         }
     }
 
+    //Initialises UserView and UserModel classes, adds Observer to view and then initilises UserController
     public void userMVC() {
         UserView view = new UserView();
         UserModel model = new UserModel(view);
@@ -45,6 +49,7 @@ public class SudokuGame {
         UserController controller = new UserController(this, view, model);
     }
 
+    //Initialises SudokuView and SudokuModel classes, adds Observer to view and then initilises SudokuController
     public void sudokuMVC(String username) {
         SudokuView view = new SudokuView(userBoard, username);
         SudokuModel model = new SudokuModel(view);
@@ -54,6 +59,7 @@ public class SudokuGame {
         SudokuController controller = new SudokuController(model, view, sudokuBoard, username);
     }
     
+    //Sets the sudokuGame class username to be equal to the supplied username
     public void setUsername(String username) {
         this.username = username;
     }

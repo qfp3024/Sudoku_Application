@@ -26,6 +26,9 @@ public class SudokuDB {
         conn = dbManager.getConnection();
     }
 
+    //Checks if the database is connected, if not throws an error
+    //Thens checks if the Users table exists, if not,
+    //defines and runs statements to create the Users table with data inserted
     public void connectSudokuDB() {
         if (conn == null) {
             System.err.println("Connection to database has not been established");
@@ -46,6 +49,7 @@ public class SudokuDB {
         }
     }
 
+    //Gets the metadata and attempts to get tables, if successfull returns true, else returns false
     public boolean tableExists(String table) {
         boolean exists = false;
         try {
@@ -60,6 +64,11 @@ public class SudokuDB {
         return exists;
     }
 
+    //Checks the database is connected, if so defines and runs a statement to retrieve the usernames and passwords
+    //of each user in the Users table, and checks if the retrieved data matches the supplied data
+    //checks if the entered username matches any in database, if it does, compares passwords, returns result
+    //if username doesn't appear in the database, run addUser method and set userCheck to false
+    //Returns usercheck
     public boolean checkName(String username, String password) {
         boolean userCheck = false;
         boolean newUser = true;
@@ -91,6 +100,9 @@ public class SudokuDB {
         return userCheck;
     }
 
+    
+    //Defines statement to insert supplied username and password into Users table with default score of 0.00
+    //Executes defined statement, prints SQL error if anything fails
     public void addUser(String username, String password) {
         try {
             String insertQuery = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES (?, ?, ?)";
@@ -104,6 +116,9 @@ public class SudokuDB {
         }
     }
 
+    //Defines statement to get username and score from Users, but only the username and score that 
+    //matches the supplied username. Executes statement, then sets score equal to retrieved score, returns score
+    //Prints message if any errors or if the database isn't connected
     public double getUserScore(String username) {
         double score = 0;
         try {
@@ -125,6 +140,9 @@ public class SudokuDB {
         return score;
     }
 
+    //Defines statement to update pre-exsiting data in Users table,
+    //Changing the score of the supplied user to be equal to the supplied score
+    //Executes statement, prints error messages if any errors occur
     public void updateUserScore(double score, double time, String username) {
         try {
             if (conn != null) {
@@ -142,6 +160,8 @@ public class SudokuDB {
         }
     }
 
+    //Defines and runs statement to delete the supplied user from Users
+    //Prints error message if any errors occur
     public void deleteUser(String username) {
         try {
             statement = conn.createStatement();

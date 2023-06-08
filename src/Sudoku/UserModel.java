@@ -21,6 +21,11 @@ public class UserModel extends Observable {
         this.view = view;
     }
 
+    //Runs getValidUsername, if it returns false, the method returns 1, meaning invalid username
+    //If getValidUsername is true, username and password are retrieved from "view"
+    //Then if username and password aren't null, checkName is run from "SudokuDB" to check the inputs are valid
+    //If so, the method returns 0, meaning no errors
+    //If password or username are null, or by default, the method returns 2 meaning password error
     public int loginUser() {
         if (!getValidUsername(view.getunInput())) {
             return 1;//If invalid username return 1
@@ -38,6 +43,8 @@ public class UserModel extends Observable {
         return 2;//Default causes wrong password error
     }
 
+    //If the supplied username matches the regex of .matches and contains only letters or numbers,
+    //then it returns true, if not it returns false
     public boolean getValidUsername(String username) {
         return username.matches("^[a-zA-Z0-9]+$");
     }
