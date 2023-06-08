@@ -21,18 +21,11 @@ public class ChangeBtnColourTest {
     
     private SudokuModel instance;
     private SudokuView view;
+    private SudokuBoard sudokuBoard;
     public ChangeBtnColourTest() {
-        int[][] userBoard = {{0,0,0,0,0,0,0,0,0},
-                             {0,0,0,0,0,0,0,0,0},
-                             {0,0,0,0,0,0,0,0,0},
-                             {0,0,0,0,0,0,0,0,0},
-                             {0,0,0,0,0,0,0,0,0},
-                             {0,0,0,0,0,0,0,0,0},
-                             {0,0,0,0,0,0,0,0,0},
-                             {0,0,0,0,0,0,0,0,0},
-                             {0,0,0,0,0,0,0,0,0}};
         String username = "User";
-        view = new SudokuView(userBoard, username);
+        sudokuBoard = new SudokuBoard();
+        view = new SudokuView(sudokuBoard, username);
         instance = new SudokuModel(view);
     }
     

@@ -20,7 +20,9 @@ public class FillBoards {
     //Copies the contents of answerBoard into userBoard
     //Iterates throught each cell, changing the contents to 0 randomly
     //Higher difficulty value results in more numbers being changed to 0
-    public static void fillUserBoard(int difficulty, int[][] userBoard, int[][] answerBoard) {
+    public static void fillUserBoard(int difficulty, SudokuBoard sudokuBoard) {
+        int[][] userBoard = sudokuBoard.userBoard;
+        int[][] answerBoard = sudokuBoard.answerBoard;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 userBoard[i][j] = answerBoard[i][j];

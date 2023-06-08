@@ -92,8 +92,8 @@ public class SudokuModel extends Observable {
     //Clears and initialises (Fills) the userBoard and answerBoard
     //Then sets the sudokuBoard using setSudokuBoard and the newly updated userBoard as a parameter
     public void updateBoard(int difficulty, SudokuBoard sudokuBoard) {
-        SudokuBoard.clearBoards(sudokuBoard.getUserBoard(), sudokuBoard.getAnswerBoard());
-        SudokuBoard.initialiseBoard(difficulty, sudokuBoard.getUserBoard(), sudokuBoard.getAnswerBoard());
+        SudokuBoard.clearBoards(sudokuBoard);
+        SudokuBoard.initialiseBoard(difficulty,sudokuBoard);
         setSudokuBoard(sudokuBoard.getUserBoard());
     }
 
@@ -158,7 +158,7 @@ public class SudokuModel extends Observable {
     //If so totalTime is equal to the result of convertToMinutes, and true is returned
     //If no false is returned
     public boolean checkBoardCorrect(SudokuBoard sudokuBoard) {
-        if (checkBoard.checkBoardCorrect(sudokuBoard.userBoard, sudokuBoard.answerBoard)) {
+        if (checkBoard.checkBoardCorrect(sudokuBoard)) {
             totalTime = convertToMinutes(startTime);
             return true;
         } else {
@@ -175,10 +175,12 @@ public class SudokuModel extends Observable {
         int viewNumber = 0;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                if (board[row][column].getText().equals("")) {
+                String cellText = board[row][column].getText();
+                
+                if (cellText.equals("")) {
                     viewNumber = 0;
                 } else {
-                    viewNumber = Integer.parseInt(board[row][column].getText());
+                    viewNumber = Integer.parseInt(cellText);
                 }
                 userBoard[row][column] = viewNumber;
             }

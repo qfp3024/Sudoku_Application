@@ -10,15 +10,13 @@ package Sudoku;
  */
 public class SudokuGame {
 
-    int userBoard[][];
-    int answerBoard[][];
+//    int userBoard[][];
     private SudokuBoard sudokuBoard = new SudokuBoard();
     private SudokuDB sudokuDB;
     private String username = null;
 
     public SudokuGame() {
-        userBoard = sudokuBoard.userBoard;
-        answerBoard = sudokuBoard.answerBoard;
+//        userBoard = sudokuBoard.userBoard;
         sudokuDB = new SudokuDB();
     }
 
@@ -30,10 +28,10 @@ public class SudokuGame {
     public void initialiseGame() {
         sudokuDB.connectSudokuDB();
         int difficulty = 2;
-        SudokuBoard.clearBoards(sudokuBoard.getUserBoard(), sudokuBoard.getAnswerBoard());
-        SudokuBoard.initialiseBoard(difficulty, userBoard, answerBoard);
+        SudokuBoard.clearBoards(sudokuBoard);
+        SudokuBoard.initialiseBoard(difficulty, sudokuBoard);
         if (username == null) {
-        userMVC();
+            userMVC();
         } else {
             this.sudokuMVC(username);
         }
@@ -51,14 +49,14 @@ public class SudokuGame {
 
     //Initialises SudokuView and SudokuModel classes, adds Observer to view and then initilises SudokuController
     public void sudokuMVC(String username) {
-        SudokuView view = new SudokuView(userBoard, username);
+        SudokuView view = new SudokuView(sudokuBoard, username);
         SudokuModel model = new SudokuModel(view);
 
         model.addObserver(view);
 
         SudokuController controller = new SudokuController(model, view, sudokuBoard, username);
     }
-    
+
     //Sets the sudokuGame class username to be equal to the supplied username
     public void setUsername(String username) {
         this.username = username;

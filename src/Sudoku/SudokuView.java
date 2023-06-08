@@ -64,7 +64,7 @@ public class SudokuView implements Observer {
     //Adds logout, howto, restart, and endGame buttons to btnPanel
     //Sets the background colours of all the panels
     //Adds all panels to the frame, sets frame to be visible
-    public SudokuView(int[][] userBoard, String username) {
+    public SudokuView(SudokuBoard sudokuBoard, String username) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(450, 400);
         frame.setLocationRelativeTo(null);
@@ -82,7 +82,7 @@ public class SudokuView implements Observer {
         difficulty.addItem("Expert");
         difficulty.addItem("Master");
 
-        addSudokuGrid(userBoard);
+        addSudokuGrid(sudokuBoard.userBoard);
 
         helpBtn.setBackground(Color.RED);
 
@@ -125,7 +125,7 @@ public class SudokuView implements Observer {
                 String cellNumber = Integer.toString(userBoard[row][column]);
                 board[row][column] = new JTextField(cellNumber);
 
-                setEditable(cellNumber, row, column);
+                cellNumber = setEditable(cellNumber, row, column);
 
                 board[row][column].setText(cellNumber);
                 board[row][column].setFont(new Font("Arial", Font.BOLD, 16));
@@ -145,13 +145,15 @@ public class SudokuView implements Observer {
 
     //If cellNumber is equal to 0, set the cell to be editable and set cellNumber to an empty string
     //If it's not equal to 0, set the cell to not be editable
-    public void setEditable(String cellNumber, int row, int column) {
+    //Returns cellNumber at the end, in case it has been altered
+    public String setEditable(String cellNumber, int row, int column) {
         if (cellNumber.equals("0")) {
             board[row][column].setEditable(true);
             cellNumber = "";
         } else {
             board[row][column].setEditable(false);
         }
+        return cellNumber;
     }
 
     //Set splitBtm and splitSide to be false
@@ -167,7 +169,7 @@ public class SudokuView implements Observer {
         if (row == 2 || row == 5) {
             splitSide = true;
         }
-        
+
         return setInsets(splitBtm, splitSide);
     }
 
@@ -190,7 +192,7 @@ public class SudokuView implements Observer {
     public void addComboBoxListener(ActionListener listener) {
         difficulty.addActionListener(listener);
     }
-    
+
 //Add an actionListener to the endGameBtn button
     public void addButtonListener(ActionListener listener) {
         endGameBtn.addActionListener(listener);
