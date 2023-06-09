@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Sudoku;
 
 import java.sql.Connection;
@@ -22,11 +19,6 @@ public class DBManager {
 
     public DBManager() {
         establishConnection();
-    }
-
-    public static void main(String[] args) {
-        DBManager dbManager = new DBManager();
-        System.out.println(dbManager.getConnection());
     }
 
     //Returns the conn Connection variable

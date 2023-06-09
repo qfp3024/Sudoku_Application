@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Sudoku;
 
 import java.awt.BorderLayout;
@@ -42,61 +38,19 @@ public class GameEndView {
     private GridBagConstraints btnGrid = new GridBagConstraints();
     private Color bgColour = new Color(151, 192, 240);
 
-    //Sets the frame's closing settings, size, sarting location on the screen, title, and backgroundColour
-    //Adds Jcomponents to panels with necessary layout options set
-    //Sets background Colour of each panel
-    //Adds panels to the frame, the sets the frame to be visible
+    //Runs the various methods to construct the GUI
+    //Sets the background colour on each panel
+    //Adds the panels to the frame
     public GameEndView() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.setLocationRelativeTo(null);
-        frame.setTitle("Game End");
-        frame.setBackground(new Color(151, 192, 240));
-
         congrats.setHorizontalAlignment(SwingConstants.CENTER);
-        titlePanel.add(congrats, BorderLayout.NORTH);
-        titlePanel.add(completion, BorderLayout.SOUTH);
-
-        grid.gridx = 0;
-        grid.gridy = 1;
-        grid.gridwidth = 1;
-        containerPanel.add(newScoreLabel, grid);
-        grid.gridx = 1;
-        grid.gridy = 1;
-        grid.gridwidth = 1;
-        containerPanel.add(newScore, grid);
-
-        grid.gridx = 0;
-        grid.gridy = 2;
-        grid.gridwidth = 1;
-        containerPanel.add(oldScoreLabel, grid);
-        grid.gridx = 1;
-        grid.gridy = 2;
-        grid.gridwidth = 1;
-        containerPanel.add(oldScore, grid);
-
-        btnGrid.gridx = 0;
-        btnGrid.gridy = 0;
-        btnGrid.gridwidth = 1;
-        btnGrid.weightx = 1.0;
-        btnGrid.fill = GridBagConstraints.BOTH;
-        btnPanel.add(yesBtn, btnGrid);
-
-        btnGrid.gridx = 1;
-        btnPanel.add(noBtn, btnGrid);
-
         askUpdate.setHorizontalAlignment(SwingConstants.CENTER);
-        updatePanel.add(askUpdate, BorderLayout.NORTH);
-        updatePanel.add(btnPanel, BorderLayout.SOUTH);
 
-        congrats.setFont(new Font("Arial", Font.BOLD, 28));
-        completion.setFont(new Font("Arial", Font.BOLD, 20));
-
-        int fontSize = 20;
-        setJPanelFont(fontSize, containerPanel);
-
-        fontSize = 18;
-        setJPanelFont(fontSize, updatePanel);
+        setFrameSettings();
+        addNewScore();
+        addOldScore();
+        addBtns();
+        setGUIFonts();
+        addComponents();
 
         titlePanel.setBackground(bgColour);
         containerPanel.setBackground(bgColour);
@@ -106,6 +60,77 @@ public class GameEndView {
         frame.add(containerPanel, BorderLayout.CENTER);
         frame.add(updatePanel, BorderLayout.SOUTH);
         frame.setVisible(true);
+    }
+
+    //Adds components to their respective panels
+    public void addComponents() {
+
+        titlePanel.add(congrats, BorderLayout.NORTH);
+        titlePanel.add(completion, BorderLayout.SOUTH);
+
+        updatePanel.add(askUpdate, BorderLayout.NORTH);
+        updatePanel.add(btnPanel, BorderLayout.SOUTH);
+    }
+
+    //Sets the fonts for congrats and completion
+    //The runs setJPanelFont for conatiner and update panels 
+    //to set the font of all the componenets container within
+    public void setGUIFonts() {
+        congrats.setFont(new Font("Arial", Font.BOLD, 28));
+        completion.setFont(new Font("Arial", Font.BOLD, 20));
+
+        int fontSize = 20;
+        setJPanelFont(fontSize, containerPanel);
+
+        fontSize = 18;
+        setJPanelFont(fontSize, updatePanel);
+    }
+
+    //Defines the grid layout and adds the yes and no buttons to the btnPanel
+    public void addBtns() {
+        btnGrid.gridx = 0;
+        btnGrid.gridy = 0;
+        btnGrid.gridwidth = 1;
+        btnGrid.weightx = 1.0;
+        btnGrid.fill = GridBagConstraints.BOTH;
+        btnPanel.add(yesBtn, btnGrid);
+
+        btnGrid.gridx = 1;
+        btnPanel.add(noBtn, btnGrid);
+    }
+
+    //Sets the settings of the frame, including the size, default screen location
+    //title text, and background colour
+    public void setFrameSettings() {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLocationRelativeTo(null);
+        frame.setTitle("Game End");
+        frame.setBackground(new Color(151, 192, 240));
+    }
+
+    //Defines the grid layout and adds the oldScore label and value to the containerPanel
+    public void addOldScore() {
+        grid.gridx = 0;
+        grid.gridy = 2;
+        grid.gridwidth = 1;
+        containerPanel.add(oldScoreLabel, grid);
+        grid.gridx = 1;
+        grid.gridy = 2;
+        grid.gridwidth = 1;
+        containerPanel.add(oldScore, grid);
+    }
+
+    //Defines the grid layout and adds the newScore label and value to the containerPanel
+    public void addNewScore() {
+        grid.gridx = 0;
+        grid.gridy = 1;
+        grid.gridwidth = 1;
+        containerPanel.add(newScoreLabel, grid);
+        grid.gridx = 1;
+        grid.gridy = 1;
+        grid.gridwidth = 1;
+        containerPanel.add(newScore, grid);
     }
 
     //Sets the font and font size of each component in the supplied Jpanel
@@ -151,19 +176,12 @@ public class GameEndView {
     }
 
     //Triggers a dialog box to appear asking the user to play again
-    //If yes is selected, return true
-    //If no is selected, return false
-    //If closed, return false by default
-    public boolean isReplay() {
-        int replay = JOptionPane.showConfirmDialog(null, "Thank you for playing, would you like to play again?", "Replay", JOptionPane.YES_NO_OPTION);
-        if (replay == JOptionPane.YES_OPTION) {
-            return true;
-        } else if (replay == JOptionPane.NO_OPTION) {
-            return false;
-        } else {
-            return false;
-        }
-
+    //Returns the result
+    public int askReplay() {
+        return JOptionPane.showConfirmDialog(null,
+                "Thank you for playing, would you like to play again?",
+                "Replay",
+                JOptionPane.YES_NO_OPTION);
     }
 
     //Closes the view GUI window

@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Sudoku;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,15 +26,15 @@ public class GameEndController {
     }
 
     //Listens and runs the actionPerformed method if the "Yes" button is pressed
-    //the "updateScore" method in "model" is run
-    //The method also runs the "isReplay()" method in view, if the method returns true
-    // "replayGame()" is run, if not the "view" window is closed
     class yesButtonListener implements ActionListener {
 
+        //The "updateScore" method in "model" is run
+        //The method also runs the "askReplay()" method in view, if the method returns true
+        // "replayGame()" is run, if not the "view" window is closed
         @Override
         public void actionPerformed(ActionEvent e) {
             model.updateScore(time, username);
-            if (view.isReplay()) {
+            if (isReplay()) {
                 replayGame();
             } else {
                 view.closeWindow();
@@ -46,13 +43,13 @@ public class GameEndController {
     }
 
     //Listens and runs the actionPerformed method if the "No" button is pressed
-    //The method runs the "isReplay()" method in view, if the method returns true
-    // "replayGame()" is run, if not the "view" window is closed
     class noButtonListener implements ActionListener {
 
+        //Runs the "askReplay()" method in view, if the method returns true
+        // "replayGame()" is run, if not the "view" window is closed
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (view.isReplay()) {
+            if (isReplay()) {
                 replayGame();
             } else {
                 view.closeWindow();
@@ -60,10 +57,10 @@ public class GameEndController {
         }
     }
 
-    //Gets the new and old score by running the getOldScore and getNewScore "model" methods,
+    //Gets the new and old score by running the getPreviousScore and getNewScore "model" methods,
     //then runs the "view" methods setOldScore and setNewScore with the previously gotten scores as parameters
     public void setScores() {
-        double oldScore = model.getOldScore();
+        double oldScore = model.getPreviousScore();
         view.setOldScore(oldScore);
 
         double newScore = model.getNewScore();
@@ -79,5 +76,20 @@ public class GameEndController {
         sudokuGame.setUsername(username);
         sudokuGame.initialiseGame();
         view.closeWindow();
+    }
+
+    //Runs the "view" askReplay and sets replay equal to the integer result
+    //If yes is selected, return true
+    //If no is selected, return false
+    //If closed, return false by default
+    public boolean isReplay() {
+        int replay = view.askReplay();
+        if (replay == JOptionPane.YES_OPTION) {
+            return true;
+        } else if (replay == JOptionPane.NO_OPTION) {
+            return false;
+        } else {
+            return false;
+        }
     }
 }

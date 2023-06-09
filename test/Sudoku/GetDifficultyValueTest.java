@@ -46,10 +46,9 @@ public class GetDifficultyValueTest {
     @Test
     public void testGetDifficultyValueBeginner() {
         System.out.println("getDifficultyValue");
-        double difficultyValue = 0.0;
         String difficulty = "Beginner";
         double expResult = 1.0;
-        double result = gameEndModel.getDifficultyValue(difficultyValue, difficulty);
+        double result = gameEndModel.getDifficultyValue(difficulty);
         assertEquals(expResult, result, 0);
     }
     
@@ -59,10 +58,9 @@ public class GetDifficultyValueTest {
     @Test
     public void testGetDifficultyValueAmateur() {
         System.out.println("getDifficultyValue");
-        double difficultyValue = 0.0;
         String difficulty = "Amateur";
         double expResult = 2.0;
-        double result = gameEndModel.getDifficultyValue(difficultyValue, difficulty);
+        double result = gameEndModel.getDifficultyValue(difficulty);
         assertEquals(expResult, result, 0);
     }
     
@@ -72,10 +70,9 @@ public class GetDifficultyValueTest {
     @Test
     public void testGetDifficultyValueIntermediate() {
         System.out.println("getDifficultyValue");
-        double difficultyValue = 0.0;
         String difficulty = "Intermediate";
         double expResult = 3.0;
-        double result = gameEndModel.getDifficultyValue(difficultyValue, difficulty);
+        double result = gameEndModel.getDifficultyValue(difficulty);
         assertEquals(expResult, result, 0);
     }
     
@@ -85,10 +82,9 @@ public class GetDifficultyValueTest {
     @Test
     public void testGetDifficultyValueExpert() {
         System.out.println("getDifficultyValue");
-        double difficultyValue = 0.0;
         String difficulty = "Expert";
         double expResult = 4.0;
-        double result = gameEndModel.getDifficultyValue(difficultyValue, difficulty);
+        double result = gameEndModel.getDifficultyValue(difficulty);
         assertEquals(expResult, result, 0);
     }
     
@@ -98,10 +94,9 @@ public class GetDifficultyValueTest {
     @Test
     public void testGetDifficultyValueMaster() {
         System.out.println("getDifficultyValue");
-        double difficultyValue = 0.0;
         String difficulty = "Master";
         double expResult = 5.0;
-        double result = gameEndModel.getDifficultyValue(difficultyValue, difficulty);
+        double result = gameEndModel.getDifficultyValue(difficulty);
         assertEquals(expResult, result, 0);
     }
 }

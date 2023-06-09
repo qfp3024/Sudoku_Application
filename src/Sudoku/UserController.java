@@ -28,12 +28,12 @@ public class UserController {
     }
 
     //Listens and runs the actionPerformed method if the loginButton is pressed
-    //The method runs the loginUser method in "model" setting loginResult equal to the result
-    //If loginResult is equal to 0 it runs closeWindow in "view" to close the userGUI window and then runs sudokuMVC
-    //If loginResult is equal to 1 it runs unError in "view" to trigger a popup username error
-    //If loginResult is equal to 2 it runs pswError in "view" to trigger a popup password error
     class LoginButtonListener implements ActionListener {
 
+        //Runs the loginUser method in "model" setting loginResult equal to the result
+        //If loginResult is equal to 0 it runs closeWindow in "view" to close the userGUI window and then runs sudokuMVC
+        //If loginResult is equal to 1 it runs unError in "view" to trigger a popup username error
+        //If loginResult is equal to 2 it runs pswError in "view" to trigger a popup password error
         @Override
         public void actionPerformed(ActionEvent e) {
             int loginResult = model.loginUser();
@@ -49,11 +49,11 @@ public class UserController {
     }
 
     //Listens and runs the actionPerdomed method if the deleteUser button is pressed
-    //The method runs checkDelete in "view" to promt the user to comfirm deletion, the result is store in deleteUser
-    //If deleteUser is true, and if loginUser returns 0, deleteUser from "SudokuDB" is run to delete the user
-    //If loginUser is false, pswError is run in "view" to trigger a popup password error
     class DeleteUserButtonListener implements ActionListener {
 
+        //Runs checkDelete in "view" to promt the user to comfirm deletion, the result is store in deleteUser
+        //If deleteUser is true, and if loginUser returns 0, deleteUser from "SudokuDB" is run to delete the user
+        //If loginUser is false, pswError is run in "view" to trigger a popup password error
         @Override
         public void actionPerformed(ActionEvent e) {
             boolean deleteUser = view.checkDelete();

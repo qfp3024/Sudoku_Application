@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Sudoku;
 
 import java.util.ArrayList;
@@ -16,6 +12,8 @@ import java.util.Random;
 public class FillBoards {
 
     private static Random random = new Random();
+    private static final int boardMax = 9;
+    private static final int randMax = 10;
 
     //Copies the contents of answerBoard into userBoard
     //Iterates throught each cell, changing the contents to 0 randomly
@@ -23,15 +21,14 @@ public class FillBoards {
     public static void fillUserBoard(int difficulty, SudokuBoard sudokuBoard) {
         int[][] userBoard = sudokuBoard.userBoard;
         int[][] answerBoard = sudokuBoard.answerBoard;
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                userBoard[i][j] = answerBoard[i][j];
-            }
+        
+        for (int i = 0; i < boardMax; i++) {
+            System.arraycopy(answerBoard[i], 0, userBoard[i], 0, boardMax);
         }
-        int randNum = 0;
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                randNum = random.nextInt(10);
+        
+        for (int i = 0; i < boardMax; i++) {
+            for (int j = 0; j < boardMax; j++) {
+                int randNum = random.nextInt(randMax);
                 if ((randNum >= 1) && (randNum <= difficulty)) {
                     userBoard[i][j] = 0;
                 }
@@ -39,28 +36,28 @@ public class FillBoards {
         }
     }
 
-    //Creates a List collection, adds numbers from 1-9 to the list, then shuffles it
+    //Creates a List collection, adds numbers from 1-boardMax to the list, then shuffles it
     //Uses checkBoard method to check if selected number is valid according to Sudoku rules
     //Iterates through the list adding the selected number to the answerBoard
     public static boolean fillBoard(int row, int column, int[][] answerBoard) {
-        if (column == 9) {
+        if (column == boardMax) {
             column = 0;
             row++;
-            if (row == 9) {
+            if (row == boardMax) {
                 return true;
             }
         }
 
         List<Integer> nums = new ArrayList<>();
-        for (int i = 1; i <= 9; i++) {
+        for (int i = 1; i <= boardMax; i++) {
             nums.add(i);
         }
         Collections.shuffle(nums, random);
 
         int num = 0;
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < boardMax; i++) {
             num = nums.get(i);
-            if (CheckBoards.checkBoard(row, column, num, answerBoard)) {
+            if (CheckBoard.checkBoard(row, column, num, answerBoard)) {
                 answerBoard[row][column] = num;
                 if (fillBoard(row, column + 1, answerBoard)) {
                     return true;

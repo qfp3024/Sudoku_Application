@@ -27,18 +27,22 @@ public class SudokuDB {
     }
 
     //Checks if the database is connected, if not throws an error
-    //Thens checks if the Users table exists, if not,
-    //defines and runs statements to create the Users table with data inserted
     public void connectSudokuDB() {
         if (conn == null) {
             System.err.println("Connection to database has not been established");
         }
+
+    }
+
+    //Checks if the Users table exists, if not,
+    //defines and runs statements to create the Users table with data inserted
+    public void createAbsentTable() {
         if (!tableExists("Users")) {
             try {
                 statement = conn.createStatement();
                 String sqlCreateTable = "CREATE TABLE USERS (USERNAME VARCHAR(20), PASSWORD VARCHAR(20), SCORE DOUBLE)";
-                String sqlInsertData1 = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES ('Bob', 'password', 84.56)";
-                String sqlInsertData2 = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES ('User', 'test', 44.58)";
+                String sqlInsertData1 = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES ('User', 'test', 44.58)";
+                String sqlInsertData2 = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES ('@notherU5er', 'password', 25.84)";
 
                 statement.executeUpdate(sqlCreateTable);
                 statement.executeUpdate(sqlInsertData1);
@@ -100,16 +104,17 @@ public class SudokuDB {
         return userCheck;
     }
 
-    
     //Defines statement to insert supplied username and password into Users table with default score of 0.00
     //Executes defined statement, prints SQL error if anything fails
     public void addUser(String username, String password) {
         try {
             String insertQuery = "INSERT INTO USERS (USERNAME, PASSWORD, SCORE) VALUES (?, ?, ?)";
             PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+
             insertStatement.setString(1, username);
             insertStatement.setString(2, password);
             insertStatement.setDouble(3, 0.00);
+
             insertStatement.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("SQL ERROR: " + ex.getMessage());
@@ -169,7 +174,7 @@ public class SudokuDB {
             String sqlDelete = "DELETE FROM USERS WHERE USERNAME = ?";
             PreparedStatement statement = conn.prepareStatement(sqlDelete);
             statement.setString(1, username);
-            
+
             statement.executeUpdate();
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage());

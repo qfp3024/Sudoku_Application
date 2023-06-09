@@ -25,7 +25,7 @@ import javax.swing.JTextField;
  *
  * @author Bewick
  */
-public class UserView implements Observer {
+public class UserView{
 
     private JFrame frame = new JFrame("User Login");
 
@@ -139,11 +139,6 @@ public class UserView implements Observer {
     //Returns the text version of pwInput
     public String getpwInput() {
         return pwInput.getText();
-    }
-
-    @Override
-    public void update(Observable o, Object obj) {
-        myJTextArea.append(obj + "\n");
     }
 
     //Closes the UserGUI by disposing of the view frame
