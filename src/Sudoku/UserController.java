@@ -60,6 +60,7 @@ public class UserController {
             if (deleteUser == true) {
                 if (model.loginUser() == 0) {
                     database.deleteUser(view.getunInput());
+                    view.clearLoginInput();
                 } else {
                     view.pswError();
                 }

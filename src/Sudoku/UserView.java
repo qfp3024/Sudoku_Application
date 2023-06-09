@@ -25,7 +25,7 @@ import javax.swing.JTextField;
  *
  * @author Bewick
  */
-public class UserView{
+public class UserView {
 
     private JFrame frame = new JFrame("User Login");
 
@@ -144,5 +144,11 @@ public class UserView{
     //Closes the UserGUI by disposing of the view frame
     public void closeWindow() {
         frame.dispose();
+    }
+
+    //Empty the input boxes once the user has been deleted
+    public void clearLoginInput() {
+        unInput.setText("");
+        pwInput.setText("");
     }
 }

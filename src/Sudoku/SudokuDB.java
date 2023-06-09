@@ -93,7 +93,7 @@ public class SudokuDB {
                 }
                 if (newUser) {
                     addUser(username, password);
-                    userCheck = false;
+                    userCheck = true;
                 }
             } else {
                 System.out.println("No database connection");
